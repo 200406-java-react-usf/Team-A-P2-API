@@ -1,15 +1,25 @@
 package com.revature.p2.models;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
 public class Good {
 
+    @Id
+    @Column
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, unique = true)
     private String description;
 
+    @Column(nullable = false)
     private int price;
 
     public Good() {
