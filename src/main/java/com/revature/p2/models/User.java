@@ -101,6 +101,10 @@ public class User implements Serializable {
         return this;
     }
 
+    //WIP
+    public void setRole(UserRole role) {
+    }
+
     public int getCargoSpace() {
         return cargoSpace;
     }

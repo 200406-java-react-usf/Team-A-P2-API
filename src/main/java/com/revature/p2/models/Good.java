@@ -32,6 +32,13 @@ public class Good {
         this.price = price;
     }
 
+    public Good(int id, String name, String description, int price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }

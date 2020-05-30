@@ -24,6 +24,11 @@ public class Planet {
         this.name = name;
     }
 
+    public Planet(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
