@@ -1,3 +1,4 @@
 pom.xml
 src/main/resources/app.properties
 
+/src/main/webapp/WEB-INF/app.properties
