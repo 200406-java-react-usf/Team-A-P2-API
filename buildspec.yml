@@ -12,4 +12,4 @@ artifacts:
   files:
     - my-web-app.war
     - .ebextensions/**/*
-  base-directory: 'target/my-web-app'
+  base-directory: 'target/Team-A-P2-API'
