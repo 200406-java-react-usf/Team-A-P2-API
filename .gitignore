@@ -2,3 +2,6 @@ pom.xml
 src/main/resources/app.properties
 
 /src/main/webapp/app.properties
+
+
+/.idea/
