@@ -1,34 +1,59 @@
 package com.revature.p2.models;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+@Entity
+public class User implements Serializable {
 
+    @Id @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Id @Column(nullable = false)
     private int roleId;
 
+    @Column
     private int cargoSpace;
 
+    @Column
     private double currency;
 
+    @Id @Column(nullable = false, unique = true)
     private int locationId;
 
+    @Id @Column(nullable = false, unique = true)
     private int goodId;
 
+    @Column(nullable = false)
     private double avgGoodPrice;
 
+    @Column(nullable = false)
     private int quantity;
 
-    public User() {
-
-    }
+    public User() { super();}
 
     public User(String username, String password, int roleId, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity) {
+        this.username = username;
+        this.password = password;
+        this.roleId = roleId;
+        this.cargoSpace = cargoSpace;
+        this.currency = currency;
+        this.locationId = locationId;
+        this.goodId = goodId;
+        this.avgGoodPrice = avgGoodPrice;
+        this.quantity = quantity;
+    }
+
+    public User(int id, String username, String password, int roleId, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.roleId = roleId;
@@ -74,6 +99,10 @@ public class User {
     public User setRoleId(int roleId) {
         this.roleId = roleId;
         return this;
+    }
+
+    //WIP
+    public void setRole(UserRole role) {
     }
 
     public int getCargoSpace() {
