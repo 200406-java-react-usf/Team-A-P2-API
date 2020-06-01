@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11
+      java: corretto8
   post_build:
     commands:
       - mvn package
@@ -12,4 +12,4 @@ artifacts:
   files:
     - Team-A-P2-API.war
     - .ebextensions/**/*
-  base-directory: 'target/Team-A-P2-API'
+#  base-directory: 'target/Team-A-P2-API'
