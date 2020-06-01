@@ -17,7 +17,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @Id @Column
+    @Id @Column(nullable = false)
     private int roleId;
 
     @Column
@@ -26,16 +26,16 @@ public class User implements Serializable {
     @Column
     private double currency;
 
-    @Id @Column
+    @Id @Column(nullable = false, unique = true)
     private int locationId;
 
-    @Id @Column
+    @Id @Column(nullable = false, unique = true)
     private int goodId;
 
-    @Column
+    @Column(nullable = false)
     private double avgGoodPrice;
 
-    @Column
+    @Column(nullable = false)
     private int quantity;
 
     public User() { super();}
