@@ -5,3 +5,9 @@ src/main/resources/app.properties
 
 
 /.idea/
+
+.classpath
+.factorypath
+.project
+.settings/
+target
