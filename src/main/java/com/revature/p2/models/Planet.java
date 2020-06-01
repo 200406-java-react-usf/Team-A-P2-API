@@ -1,19 +1,18 @@
 package com.revature.p2.models;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name="planets")
 public class Planet {
 
     @Id
-    @Column
+    @Column(name="planet_id")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable=false,unique=true)
+    @Column(name="planet_name", nullable=false,unique=true)
     private String name;
 
     public Planet() {

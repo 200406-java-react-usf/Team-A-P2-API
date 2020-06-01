@@ -19,6 +19,8 @@ public enum UserRole {
         return LOCKED;
     }
 
+
+
     public int getRoleId() {
         return this.roleId;
     }

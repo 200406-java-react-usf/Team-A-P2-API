@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table(name="users")
 public class User implements Serializable {
 
     @Id @Column
@@ -17,25 +18,25 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @Id @Column(nullable = false)
+    @Id @Column(name="role_id", nullable = false)
     private int roleId;
 
-    @Column
+    @Column(name="cargo_space")
     private int cargoSpace;
 
     @Column
     private double currency;
 
-    @Id @Column(nullable = false, unique = true)
+    @Id @Column(name="location", nullable = false, unique = true)
     private int locationId;
 
-    @Id @Column(nullable = false, unique = true)
+    @Id @Column(name="good_id", nullable = false, unique = true)
     private int goodId;
 
-    @Column(nullable = false)
+    @Column(name="good_avg_price", nullable = false)
     private double avgGoodPrice;
 
-    @Column(nullable = false)
+    @Column(name="good_quantity", nullable = false)
     private int quantity;
 
     public User() { super();}
