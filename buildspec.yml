@@ -4,16 +4,12 @@ phases:
   install:
     runtime-versions:
       java: corretto11
-  pre_build:
-    commands:
-      - echo Nothing to do in the pre_build phase...
-  build:
-    commands:
-      - echo Build started on `date`
-      - mvn install
   post_build:
     commands:
-      - echo Build completed on `date`
+      - mvn package
+      - mv target/Team-A-P2-API.war Team-A-P2-API.war
 artifacts:
   files:
-    - target/messageUtil-1.0.jar
+    - Team-A-P2-API.war
+    - .ebextensions/**/*
+  base-directory: 'target/Team-A-P2-API'
