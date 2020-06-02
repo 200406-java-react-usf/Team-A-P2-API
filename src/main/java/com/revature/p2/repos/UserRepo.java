@@ -5,9 +5,11 @@ import com.revature.p2.web.dtos.Creds;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class UserRepo implements CrudRepo<User> {
 
     private SessionFactory sessionFactory;
