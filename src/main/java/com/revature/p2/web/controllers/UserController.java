@@ -2,6 +2,8 @@ package com.revature.p2.web.controllers;
 
 import com.revature.p2.models.User;
 import com.revature.p2.services.UserService;
+import com.revature.p2.web.dtos.UserDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
 
         return userService.getAllUsers();
     }

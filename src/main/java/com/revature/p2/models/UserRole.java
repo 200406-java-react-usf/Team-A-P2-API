@@ -2,7 +2,7 @@ package com.revature.p2.models;
 
 public enum UserRole {
 
-    ADMIN(1), DEV(2), BASIC_USER(3), LOCKED(4);
+    ADMIN(1), USER(2), LOCKED(3);
 
     private int roleId;
 
