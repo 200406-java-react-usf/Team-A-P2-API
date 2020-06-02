@@ -1,11 +1,10 @@
 package com.revature.p2.models;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class User implements Serializable {
+public class User {
 
     @Id @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)

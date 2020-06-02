@@ -54,14 +54,16 @@ public class UserRepo implements CrudRepo<User> {
     @Override
     public boolean update(User updatedObj) {
 
-        //WIP
-        return false;
+        Session session = sessionFactory.getCurrentSession();
+        session.update(updatedObj);
+        return true;
     }
 
     @Override
     public boolean deleteById(int id) {
 
-        //WIP
-        return false;
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(id);
+        return true;
     }
 }

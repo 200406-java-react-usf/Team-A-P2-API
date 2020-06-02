@@ -6,11 +6,14 @@ import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.UserRepo;
 import com.revature.p2.web.dtos.Creds;
+import com.revature.p2.web.dtos.UserDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -25,8 +28,11 @@ public class UserService {
     }
 
     @Transactional(readOnly=true)
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
+    public List<UserDTO> getAllUsers() {
+        return userRepo.findAll()
+                        .stream()
+                        .map(UserDTO::new)
+                        .collect(Collectors.toList());
     }
 
     @Transactional(readOnly=true)
@@ -53,7 +59,7 @@ public class UserService {
 
         // validation would go here...
 
-        newUser.setRole(UserRole.BASIC_USER);
+        newUser.setRole(UserRole.USER);
         return userRepo.save(newUser);
 
     }
