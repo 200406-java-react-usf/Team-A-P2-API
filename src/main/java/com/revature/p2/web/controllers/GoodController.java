@@ -2,6 +2,7 @@ package com.revature.p2.web.controllers;
 
 import com.revature.p2.models.Good;
 import com.revature.p2.services.GoodService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,4 @@ public class GoodController {
 
         return goodService.register(newGood);
     }
-
 }

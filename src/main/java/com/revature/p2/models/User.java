@@ -18,8 +18,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @Id @Column(name="role_id", nullable = false)
-    private int roleId;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Column(name="cargo_space")
     private int cargoSpace;
@@ -41,29 +41,29 @@ public class User implements Serializable {
 
     public User() { super();}
 
-    public User(String username, String password, int roleId, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity) {
+    public User(String username, String password, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity) {
         this.username = username;
         this.password = password;
-        this.roleId = roleId;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
         this.locationId = locationId;
         this.goodId = goodId;
         this.avgGoodPrice = avgGoodPrice;
         this.quantity = quantity;
+        this.role = UserRole.USER;
     }
 
-    public User(int id, String username, String password, int roleId, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity) {
+    public User(int id, String username, String password, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity, UserRole role) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.roleId = roleId;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
         this.locationId = locationId;
         this.goodId = goodId;
         this.avgGoodPrice = avgGoodPrice;
         this.quantity = quantity;
+        this.role = role;
     }
 
     public int getId() {
@@ -93,17 +93,12 @@ public class User implements Serializable {
         return this;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public UserRole getRole() {
+        return role;
     }
 
-    public User setRoleId(int roleId) {
-        this.roleId = roleId;
-        return this;
-    }
-
-    //WIP
     public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public int getCargoSpace() {
@@ -166,7 +161,7 @@ public class User implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
-                roleId == user.roleId &&
+                role == user.role &&
                 cargoSpace == user.cargoSpace &&
                 Double.compare(user.currency, currency) == 0 &&
                 locationId == user.locationId &&
@@ -179,7 +174,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, roleId, cargoSpace, currency, locationId, goodId, avgGoodPrice, quantity);
+        return Objects.hash(id, username, password, role, cargoSpace, currency, locationId, goodId, avgGoodPrice, quantity);
     }
 
     @Override
@@ -188,7 +183,7 @@ public class User implements Serializable {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", roleId=" + roleId +
+                ", role=" + role +
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", locationId=" + locationId +
