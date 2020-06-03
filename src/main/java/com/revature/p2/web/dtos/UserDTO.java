@@ -1,6 +1,7 @@
 package com.revature.p2.web.dtos;
 
 import com.revature.p2.models.User;
+import com.revature.p2.models.UserRole;
 
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ public class UserDTO {
 
     private int id;
     private String username;
-    private int roleId;
+    private UserRole role;
     private int cargoSpace;
     private Number currency;
     private int locationId;
@@ -23,7 +24,7 @@ public class UserDTO {
     public UserDTO(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
-        this.roleId = user.getRoleId();
+        this.role = user.getRole();
         this.cargoSpace = user.getCargoSpace();
         this.currency = user.getCurrency();
         this.locationId = user.getLocationId();
@@ -50,13 +51,12 @@ public class UserDTO {
         return this;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public UserRole getRole() {
+        return role;
     }
 
-    public UserDTO setRoleId(int roleId) {
-        this.roleId = roleId;
-        return this;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public int getCargoSpace() {
@@ -119,7 +119,7 @@ public class UserDTO {
         if (o == null || getClass() != o.getClass()) return false;
         UserDTO userDTO = (UserDTO) o;
         return id == userDTO.id &&
-                roleId == userDTO.roleId &&
+                role == userDTO.role &&
                 cargoSpace == userDTO.cargoSpace &&
                 locationId == userDTO.locationId &&
                 goodId == userDTO.goodId &&
@@ -131,7 +131,7 @@ public class UserDTO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, roleId, cargoSpace, currency, locationId, goodId, avgGoodPrice, quantity);
+        return Objects.hash(id, username, role, cargoSpace, currency, locationId, goodId, avgGoodPrice, quantity);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class UserDTO {
         return "UserDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", roleId=" + roleId +
+                ", role=" + role +
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", locationId=" + locationId +
