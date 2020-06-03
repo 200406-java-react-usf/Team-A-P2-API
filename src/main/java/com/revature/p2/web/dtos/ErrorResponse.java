@@ -1,21 +1,24 @@
 package com.revature.p2.web.dtos;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+
+import com.revature.p2.exceptions.P2Exception;
 
 public class ErrorResponse {
 
     private int status;
     private String message;
-    private long timestamp;
+    private String timestamp;
 
     public ErrorResponse() {
         super();
     }
 
-    public ErrorResponse(int status, String message, long timestamp) {
-        this.status = status;
-        this.message = message;
-        this.timestamp = timestamp;
+    public ErrorResponse(P2Exception e) {
+        this.status = e.getStatus();
+        this.message = e.getMessage();
+        this.timestamp = LocalDateTime.now().toString();
     }
 
     public int getStatus() {
@@ -34,11 +37,11 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -47,10 +50,9 @@ public class ErrorResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ErrorResponse that = (ErrorResponse) o;
-        return
-                status == that.status &&
-                timestamp == that.timestamp &&
-                Objects.equals(message, that.message);
+        return status == that.status &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(timestamp, that.timestamp);
     }
 
     @Override
@@ -63,7 +65,8 @@ public class ErrorResponse {
         return "ErrorResponse{" +
                 "status=" + status +
                 ", message='" + message + '\'' +
-                ", timestamp=" + timestamp +
+                ", timestamp='" + timestamp + '\'' +
                 '}';
     }
+
 }
