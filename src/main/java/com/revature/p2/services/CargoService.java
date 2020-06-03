@@ -36,9 +36,21 @@ public class CargoService {
         List<Cargo> retrievedGood = (List<Cargo>) cargoRepo.findByUserId(id);
         return retrievedGood;
     }
+
+    @Transactional(readOnly=true)
+    public List<Cargo> getCargoByPlanetID(int id) {
+        List<Cargo> retrievedGood = (List<Cargo>) cargoRepo.findByPlanetId(id);
+        return retrievedGood;
+    }
     @Transactional
     public Cargo register(Cargo newGood) {
         return null;
+    }
+
+    @Transactional
+    public Cargo updateCargo(Cargo updatedGood) {
+        cargoRepo.update(updatedGood);
+        return updatedGood;
     }
 
 }

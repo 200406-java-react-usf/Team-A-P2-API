@@ -40,6 +40,11 @@ public class CargoRepo implements CrudRepo<Cargo> {
         return session.createQuery("from Cargo where user_id = :id").getResultList();
     }
 
+    public List<Cargo> findByPlanetId(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from Cargo where planet_id = :id").getResultList();
+    }
+
     @Override
     public Cargo save(Cargo newObj) {
 

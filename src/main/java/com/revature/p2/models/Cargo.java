@@ -12,8 +12,11 @@ public class Cargo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="cargo_user_id", nullable = false, unique = true)
+    @Column(name="cargo_user_id", nullable = true, unique = true)
     private int userId;
+
+    @Column(name="cargo_planet_id", nullable = true, unique = true)
+    private int planetId;
 
     @Column(name="cargo_name", nullable = false, unique = true)
     private String name;
@@ -30,9 +33,10 @@ public class Cargo {
         this.price = price;
     }
 
-    public Cargo(int id, int uId, String name, String description, int price) {
+    public Cargo(int id, int uId, int pId, String name, String description, int price) {
         this.id = id;
         this.userId = uId;
+        this.planetId = pId;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
@@ -44,6 +48,10 @@ public class Cargo {
     public int getUserId() {
         return userId;
     }
+    public int getplanetId() {
+        return planetId;
+    }
+
     public String getName() {
         return name;
     }
@@ -62,6 +70,10 @@ public class Cargo {
     }
     public Cargo setUserId(int id) {
         this.userId = id;
+        return this;
+    }
+    public Cargo setPlanetId(int id) {
+        this.planetId = id;
         return this;
     }
     public Cargo setName(String name) {
