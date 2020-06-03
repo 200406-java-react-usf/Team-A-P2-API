@@ -2,27 +2,26 @@ package com.revature.p2.models;
 
 public enum UserRole {
 
-    ADMIN(1), USER(2), LOCKED(3);
+    ADMIN("Admin"), USER("User"), LOCKED("Locked");
 
-    private int roleId;
+    private final String roleName;
 
-    UserRole(int id) {
-        this.roleId = id;
+    UserRole(String name) {
+        this.roleName = name;
     }
 
-    public static UserRole getById(int id) {
+    public static UserRole getByName(String name) {
         for (UserRole role : UserRole.values()) {
-            if (role.roleId == id) {
+            if (role.roleName.equals(name)) {
                 return role;
             }
         }
         return LOCKED;
     }
 
-
-
-    public int getRoleId() {
-        return this.roleId;
+    @Override
+    public String toString() {
+        return roleName;
     }
 
 }
