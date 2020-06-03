@@ -1,4 +1,4 @@
-package com.revature.p2;
+package com.revature.p2.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.cfg.Environment;
@@ -26,7 +26,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @PropertySource("classpath:app.properties")
-public class AppConfig implements WebMvcConfigurer, WebApplicationInitializer {
+public class OrmConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
     @Value("${db.driver}")
     private String dbDriver;
@@ -84,7 +84,7 @@ public class AppConfig implements WebMvcConfigurer, WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
 
         AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
-        container.register(AppConfig.class);
+        container.register(OrmConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(container));
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(container));
