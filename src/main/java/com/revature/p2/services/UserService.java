@@ -2,6 +2,8 @@ package com.revature.p2.services;
 
 import com.revature.p2.exceptions.AuthenticationException;
 import com.revature.p2.exceptions.BadRequestException;
+import com.revature.p2.models.Good;
+import com.revature.p2.models.Planet;
 import com.revature.p2.exceptions.ResourceNotFoundException;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
@@ -10,6 +12,7 @@ import com.revature.p2.web.dtos.Creds;
 import com.revature.p2.web.dtos.Principal;
 import com.revature.p2.web.dtos.UserDTO;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,6 +76,7 @@ public class UserService {
         return new Principal(retrievedUser);
 
     }
+
 
     @Transactional
     public UserDTO register(User newUser) {

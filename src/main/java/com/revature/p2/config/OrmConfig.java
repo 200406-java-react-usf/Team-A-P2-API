@@ -20,13 +20,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import java.util.Properties;
 
-@EnableWebMvc
 @Configuration
-@ComponentScan
-@EnableTransactionManagement
-@EnableAspectJAutoProxy(proxyTargetClass=true)
 @PropertySource("classpath:app.properties")
-public class OrmConfig implements WebMvcConfigurer, WebApplicationInitializer {
+@EnableTransactionManagement
+public class OrmConfig {
 
     @Value("${db.driver}")
     private String dbDriver;
@@ -78,19 +75,6 @@ public class OrmConfig implements WebMvcConfigurer, WebApplicationInitializer {
         hibernateProperties.setProperty(Environment.FORMAT_SQL, "true");
         hibernateProperties.setProperty(Environment.HBM2DDL_AUTO, "update");
         return hibernateProperties;
-    }
-
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-
-        AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
-        container.register(OrmConfig.class);
-
-        servletContext.addListener(new ContextLoaderListener(container));
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(container));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
-
     }
 
 }
