@@ -2,13 +2,17 @@ package com.revature.p2.web.controllers;
 
 import com.revature.p2.models.User;
 import com.revature.p2.services.UserService;
-import com.revature.p2.web.dtos.UserDTO;
 
+import com.revature.p2.web.dtos.UserDTO;
+import com.revature.p2.web.security.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/users")
@@ -22,16 +26,23 @@ public class UserController {
         this.userService = service;
     }
 
-    @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
+    @Secured(allowedRoles={"Admin"})
     public List<UserDTO> getAllUsers() {
 
         return userService.getAllUsers();
     }
 
-    @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public User registerNewUser(@RequestBody User newUser) {
+    @GetMapping(value="/id/{id}")
+    public UserDTO getUserById(@PathVariable int id, HttpServletRequest req) {
+        
+        return userService.getUserById(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO registerNewUser(@RequestBody User newUser) {
 
         return userService.register(newUser);
     }
-
 }
