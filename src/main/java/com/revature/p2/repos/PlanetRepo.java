@@ -57,4 +57,3 @@ public class PlanetRepo implements CrudRepo<Planet> {
         session.delete(id);
         return true;
     }
-}
