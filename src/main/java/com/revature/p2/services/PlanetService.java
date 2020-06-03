@@ -1,5 +1,6 @@
 package com.revature.p2.services;
 
+import com.revature.p2.models.Good;
 import com.revature.p2.models.Planet;
 import com.revature.p2.repos.PlanetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,13 @@ public class PlanetService {
     public List<Planet> getAllPlanets() {
         return planetRepo.findAll();
     }
+
+    @Transactional(readOnly=true)
+    public Planet getPlanetByID(int id) {
+        Planet retrievedPlanet = planetRepo.findById(id);
+        return retrievedPlanet;
+    }
+
 
     @Transactional
     public Planet register(Planet newPlanet) {

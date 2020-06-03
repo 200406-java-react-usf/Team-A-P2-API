@@ -2,12 +2,15 @@ package com.revature.p2.services;
 
 import com.revature.p2.exceptions.AuthenticationException;
 import com.revature.p2.exceptions.BadRequestException;
+import com.revature.p2.models.Good;
+import com.revature.p2.models.Planet;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.UserRepo;
 import com.revature.p2.web.dtos.Creds;
 import com.revature.p2.web.dtos.UserDTO;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,10 +52,9 @@ public class UserService {
         if (retrievedUser == null) {
             throw new AuthenticationException();
         }
-
         return retrievedUser;
-
     }
+
 
     @Transactional
     public User register(User newUser) {

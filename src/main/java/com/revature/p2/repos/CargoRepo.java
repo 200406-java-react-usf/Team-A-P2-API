@@ -1,6 +1,7 @@
 package com.revature.p2.repos;
 
-import com.revature.p2.models.Planet;
+import com.revature.p2.models.Cargo;
+import com.revature.p2.models.Good;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,41 +10,45 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class PlanetRepo implements CrudRepo<Planet> {
+public class CargoRepo implements CrudRepo<Cargo> {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public PlanetRepo(SessionFactory factory) {
+    public CargoRepo(SessionFactory factory) {
         super();
         this.sessionFactory = factory;
     }
 
     @Override
-    public List<Planet> findAll() {
+    public List<Cargo> findAll() {
 
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Planet", Planet.class)
+        return session.createQuery("from Cargo", Cargo.class)
                 .getResultList();
     }
 
     @Override
-    public Planet findById(int id) {
+    public Cargo findById(int id) {
 
         Session session = sessionFactory.getCurrentSession();
-        return session.get(Planet.class, id);
+        return session.get(Cargo.class, id);
+    }
+
+    public List<Cargo> findByUserId(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from Cargo where user_id = :id").getResultList();
     }
 
     @Override
-    public Planet save(Planet newObj) {
+    public Cargo save(Cargo newObj) {
 
         Session session = sessionFactory.getCurrentSession();
         session.save(newObj);
         return newObj;
     }
-
     @Override
-    public boolean update(Planet updatedObj) {
+    public boolean update(Cargo updatedObj) {
 
         //WIP
         return false;
@@ -55,6 +60,5 @@ public class PlanetRepo implements CrudRepo<Planet> {
         //WIP
         return false;
     }
-
-
 }
+
