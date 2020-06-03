@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 public class GoodService {
 
@@ -27,7 +26,7 @@ public class GoodService {
 
     @Transactional
     public Good register(Good newGood) {
-        return null;
+        return goodRepo.save(newGood);
     }
 
 }
