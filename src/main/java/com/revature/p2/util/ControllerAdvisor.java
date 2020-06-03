@@ -13,15 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 public class ControllerAdvisor {
 
     @ExceptionHandler
-    public ErrorResponse handleRevaboardsException(P2Exception e, HttpServletResponse resp) {
+    public ErrorResponse handleP2Exception(P2Exception e, HttpServletResponse resp) {
         ErrorResponse err = new ErrorResponse(e);
 
         if (e instanceof BadRequestException) {
             resp.setStatus(400);
         } else if (e instanceof AuthenticationException) {
             resp.setStatus(401);
+        } else if (e instanceof AuthorizationException) {
+            resp.setStatus(403);
         } else if (e instanceof ResourceNotFoundException) {
             resp.setStatus(404);
+        } else if (e instanceof ResourcePersistenceException) {
+            resp.setStatus(409);
+        } else if (e instanceof InternalServerErrorException) {
+            resp.setStatus(500);
         }
         
 
