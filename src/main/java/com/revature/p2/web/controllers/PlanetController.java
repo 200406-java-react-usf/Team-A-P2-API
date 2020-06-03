@@ -2,6 +2,7 @@ package com.revature.p2.web.controllers;
 
 import com.revature.p2.models.Planet;
 import com.revature.p2.services.PlanetService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,4 @@ public class PlanetController {
 
         return planetService.register(newPlanet);
     }
-
 }

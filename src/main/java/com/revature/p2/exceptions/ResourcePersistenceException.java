@@ -3,15 +3,15 @@ package com.revature.p2.exceptions;
 public class ResourcePersistenceException extends P2Exception {
 
     public ResourcePersistenceException() {
-        super("Resource could not be persisted!");
+        super(409, "Resource could not be persisted!");
     }
 
-    public ResourcePersistenceException(String message) {
-        super(message);
+    public ResourcePersistenceException(String msg) {
+        super(409, msg);
     }
 
-    public ResourcePersistenceException(String message, Throwable cause) {
-        super(message, cause);
+    public ResourcePersistenceException(String msg, Throwable cause) {
+        super(409, msg, cause);
     }
 
 }
