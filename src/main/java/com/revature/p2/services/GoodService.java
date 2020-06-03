@@ -24,6 +24,12 @@ public class GoodService {
         return goodRepo.findAll();
     }
 
+    @Transactional(readOnly=true)
+    public Good getGoodByID(int id) {
+        Good retrievedGood = goodRepo.findById(id);
+        return retrievedGood;
+    }
+
     @Transactional
     public Good register(Good newGood) {
         return goodRepo.save(newGood);
