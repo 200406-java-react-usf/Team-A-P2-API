@@ -4,42 +4,43 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="Cargo")
+@Table(name="cargo")
 public class Cargo {
 
     @Id
-    @Column(name="cargo_id")
+    @Column(name="good_id")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="cargo_user_id", nullable = true, unique = true)
-    private int userId;
-
-    @Column(name="cargo_planet_id", nullable = true, unique = true)
-    private int planetId;
-
-    @Column(name="cargo_name", nullable = false, unique = true)
-    private String name;
-
-    @Column(name="cargo_quantity", nullable = true)
+    @Column(name="good_quantity", nullable = true)
     private int quantity;
 
-    @Column(name="cargo_avg_price", nullable = true)
-    private float price;
+    @Column(name = "cost_of_goods", nullable = false)
+    private int costOfGoods;
 
-    public Cargo(String name, int quantity, float price) {
+    @Column(name="user_id", nullable = true, unique = true)
+    private int userId;
+
+//    @JoinColumn(mappedBy= "goods", nullable = false, unique = true)
+
+    private String name;
+
+//    @Column(name="cargo_planet_id", nullable = true, unique = true)
+//    private int planetId;
+
+//    @Column(name="cargo_avg_price", nullable = true)
+//    private float price;
+
+    public Cargo(String name, int quantity) {
         this.name = name;
         this.quantity = quantity;
-        this.price = price;
     }
 
-    public Cargo(int id, int uId, int pId, String name, String description, int price) {
+    public Cargo(int id, int uId, String name, int quantity) {
         this.id = id;
         this.userId = uId;
-        this.planetId = pId;
         this.name = name;
         this.quantity = quantity;
-        this.price = price;
     }
 
     public int getId() {
@@ -47,9 +48,6 @@ public class Cargo {
     }
     public int getUserId() {
         return userId;
-    }
-    public int getplanetId() {
-        return planetId;
     }
 
     public String getName() {
@@ -60,10 +58,6 @@ public class Cargo {
         return quantity;
     }
 
-    public float getAvgPrice() {
-        return price;
-    }
-
     public Cargo setId(int id) {
         this.id = id;
         return this;
@@ -72,10 +66,7 @@ public class Cargo {
         this.userId = id;
         return this;
     }
-    public Cargo setPlanetId(int id) {
-        this.planetId = id;
-        return this;
-    }
+
     public Cargo setName(String name) {
         this.name = name;
         return this;
@@ -86,10 +77,6 @@ public class Cargo {
         return this;
     }
 
-    public Cargo setAvgPrice() {
-        this.price = price;
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -97,13 +84,12 @@ public class Cargo {
         if (o == null || getClass() != o.getClass()) return false;
         Cargo cargo = (Cargo) o;
         return id == cargo.id &&
-                price == cargo.price &&
                 Objects.equals(name, cargo.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, quantity, price);
+        return Objects.hash(id, name, quantity);
     }
 
     @Override
@@ -112,7 +98,6 @@ public class Cargo {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", quantity='" + quantity + '\'' +
-                ", avg price=" + price +
                 '}';
     }
 }
