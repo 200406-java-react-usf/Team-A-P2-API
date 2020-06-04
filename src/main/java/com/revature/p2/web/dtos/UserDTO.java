@@ -13,9 +13,6 @@ public class UserDTO {
     private int cargoSpace;
     private Number currency;
     private int locationId;
-    private int goodId;
-    private Number avgGoodPrice;
-    private int quantity;
 
     public UserDTO() {
         super();
@@ -28,9 +25,6 @@ public class UserDTO {
         this.cargoSpace = user.getCargoSpace();
         this.currency = user.getCurrency();
         this.locationId = user.getLocationId();
-        this.goodId = user.getGoodId();
-        this.avgGoodPrice = user.getAvgGoodPrice();
-        this.quantity = user.getQuantity();
     }
 
     public int getId() {
@@ -86,33 +80,6 @@ public class UserDTO {
         return this;
     }
 
-    public int getGoodId() {
-        return goodId;
-    }
-
-    public UserDTO setGoodId(int goodId) {
-        this.goodId = goodId;
-        return this;
-    }
-
-    public Number getAvgGoodPrice() {
-        return avgGoodPrice;
-    }
-
-    public UserDTO setAvgGoodPrice(Number avgGoodPrice) {
-        this.avgGoodPrice = avgGoodPrice;
-        return this;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public UserDTO setQuantity(int quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -121,17 +88,12 @@ public class UserDTO {
         return id == userDTO.id &&
                 role == userDTO.role &&
                 cargoSpace == userDTO.cargoSpace &&
-                locationId == userDTO.locationId &&
-                goodId == userDTO.goodId &&
-                quantity == userDTO.quantity &&
-                Objects.equals(username, userDTO.username) &&
-                Objects.equals(currency, userDTO.currency) &&
-                Objects.equals(avgGoodPrice, userDTO.avgGoodPrice);
+                locationId == userDTO.locationId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, role, cargoSpace, currency, locationId, goodId, avgGoodPrice, quantity);
+        return Objects.hash(id, username, role, cargoSpace, currency, locationId);
     }
 
     @Override
@@ -143,9 +105,6 @@ public class UserDTO {
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", locationId=" + locationId +
-                ", goodId=" + goodId +
-                ", avgGoodPrice=" + avgGoodPrice +
-                ", quantity=" + quantity +
                 '}';
     }
 
