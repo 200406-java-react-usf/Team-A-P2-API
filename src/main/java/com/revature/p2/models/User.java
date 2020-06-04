@@ -30,39 +30,24 @@ public class User implements Serializable {
     @Id @Column(name="location", nullable = false, unique = true)
     private int locationId;
 
-    @Id @Column(name="good_id", nullable = false, unique = true)
-    private int goodId;
-
-    @Column(name="good_avg_price", nullable = false)
-    private double avgGoodPrice;
-
-    @Column(name="good_quantity", nullable = false)
-    private int quantity;
-
     public User() { super();}
 
-    public User(String username, String password, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity) {
+    public User(String username, String password, int cargoSpace, double currency, int locationId) {
         this.username = username;
         this.password = password;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
         this.locationId = locationId;
-        this.goodId = goodId;
-        this.avgGoodPrice = avgGoodPrice;
-        this.quantity = quantity;
         this.role = UserRole.USER;
     }
 
-    public User(int id, String username, String password, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity, UserRole role) {
+    public User(int id, String username, String password, int cargoSpace, double currency, int locationId, UserRole role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
         this.locationId = locationId;
-        this.goodId = goodId;
-        this.avgGoodPrice = avgGoodPrice;
-        this.quantity = quantity;
         this.role = role;
     }
 
@@ -128,33 +113,6 @@ public class User implements Serializable {
         return this;
     }
 
-    public int getGoodId() {
-        return goodId;
-    }
-
-    public User setGoodId(int goodId) {
-        this.goodId = goodId;
-        return this;
-    }
-
-    public double getAvgGoodPrice() {
-        return avgGoodPrice;
-    }
-
-    public User setAvgGoodPrice(double avgGoodPrice) {
-        this.avgGoodPrice = avgGoodPrice;
-        return this;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public User setQuantity(int quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -165,16 +123,13 @@ public class User implements Serializable {
                 cargoSpace == user.cargoSpace &&
                 Double.compare(user.currency, currency) == 0 &&
                 locationId == user.locationId &&
-                goodId == user.goodId &&
-                Double.compare(user.avgGoodPrice, avgGoodPrice) == 0 &&
-                quantity == user.quantity &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, cargoSpace, currency, locationId, goodId, avgGoodPrice, quantity);
+        return Objects.hash(id, username, password, role, cargoSpace, currency, locationId);
     }
 
     @Override
@@ -187,9 +142,6 @@ public class User implements Serializable {
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", locationId=" + locationId +
-                ", goodId=" + goodId +
-                ", avgGoodPrice=" + avgGoodPrice +
-                ", quantity=" + quantity +
                 '}';
     }
 }
