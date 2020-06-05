@@ -2,6 +2,7 @@ package com.revature.p2.services;
 
 import com.revature.p2.exceptions.AuthenticationException;
 import com.revature.p2.exceptions.BadRequestException;
+import com.revature.p2.exceptions.ResourcePersistenceException;
 import com.revature.p2.models.Good;
 import com.revature.p2.models.Planet;
 import com.revature.p2.exceptions.ResourceNotFoundException;
@@ -32,6 +33,11 @@ public class UserService {
         this.userRepo = repo;
     }
 
+    /**
+     * NEED ADMIN ROLE TO ACCESS
+     * Will return all of the users in the database
+     * @return a List of all users that exist in the database
+     */
     @Transactional(readOnly=true)
     public List<UserDTO> getAllUsers() {
         return userRepo.findAll()
@@ -40,6 +46,11 @@ public class UserService {
                         .collect(Collectors.toList());
     }
 
+    /**
+     * Will get a single user by their ID
+     * @param id the ID of the user you want to find
+     * @return the user with provided ID
+     */
     @Transactional(readOnly = true)
     public UserDTO getUserById(int id) {
 
@@ -56,6 +67,11 @@ public class UserService {
         return new UserDTO(retrievedUser);
     }
 
+    /**
+     * Used for login purposes. Will validate that user is logging in with correct username & password
+     * @param creds a username & password
+     * @return the newly logged in user
+     */
     @Transactional(readOnly=true)
     public Principal authenticate(Creds creds) {
 
@@ -78,13 +94,44 @@ public class UserService {
     }
 
 
+    /**
+     * Will register a new user in the database, checking to see if the username exists before persisting
+     * @param newUser user object to be registered (username & password req)
+     * @return the newly registered user
+     */
     @Transactional
     public UserDTO register(User newUser) {
 
-        //TODO: Validation
+        //TODO: WIP -- THROWING ERROR IF USERNAME IS AVAILABLE THAT ISN'T BEING CAUGHT CORRECTLY
+
+        if (newUser == null || newUser.getUsername() == null || newUser.getPassword() == null ||
+                newUser.getUsername().trim().equals("") || newUser.getPassword().trim().equals("")) {
+            throw new BadRequestException("Oh no! You did not provide a valid username or password.");
+        }
+
+        // will be true if username is available, false if already taken
+        boolean isUsernameAvailable = checkUsername(newUser.getUsername());
+
+        if (!isUsernameAvailable) {
+            throw new ResourcePersistenceException("That username is already taken.");
+        }
 
         newUser.setRole(UserRole.USER);
         return new UserDTO(userRepo.save(newUser));
 
+    }
+
+    /**
+     * Will check to see if the username is already in the database
+     * @param username
+     * @return true if no user is found with that username; false if user already exists with that username
+     */
+    private boolean checkUsername(String username) {
+        try{
+            userRepo.findUserByUsername(username);
+        } catch(NoResultException e) {
+            return true;
+        }
+        return false;
     }
 }
