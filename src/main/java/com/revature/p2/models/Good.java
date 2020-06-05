@@ -2,40 +2,54 @@ package com.revature.p2.models;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name="goods")
+@Table(name="goods", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "good_id")
+})
+
+
 public class Good {
 
     @Id
-    @Column(name="good_id")
+    @Column(name = "good_id", unique = true, nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="good_name", nullable = false, unique = true)
+    @Column(name = "good_name", nullable = false, unique = true, length = 35)
     private String name;
 
-    @Column(name="good_description", nullable = false, unique = true)
+    @Column(name = "good_description", nullable = false, unique = true, length = 256)
     private String description;
 
-    @Column(name="good_base_price", nullable = false)
+    @Column(name = "good_base_price", nullable = false)
     private int price;
 
-    public Good() {
+    @ManyToMany(mappedBy = "goods")
+    private Set<Cargo> cargos;
 
+    @ManyToMany(mappedBy = "goods")
+    private Set<Planet> planets;
+
+
+    public Good() {
+        super();
     }
 
-    public Good(String name, String description, int price) {
+    public Good(String name, String description, int price, Set<Cargo> cargos) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.cargos = cargos;
     }
 
-    public Good(int id, String name, String description, int price) {
+    public Good(int id, String name, String description, int price, Set<Cargo> cargos) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.cargos = cargos;
     }
 
     public int getId() {
@@ -74,6 +88,15 @@ public class Good {
         return this;
     }
 
+    public Set<Cargo> getCargos() {
+        return cargos;
+    }
+
+    public Good setCargos(Set<Cargo> cargos) {
+        this.cargos = cargos;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,12 +105,13 @@ public class Good {
         return id == good.id &&
                 price == good.price &&
                 Objects.equals(name, good.name) &&
-                Objects.equals(description, good.description);
+                Objects.equals(description, good.description) &&
+                Objects.equals(cargos, good.cargos);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, price);
+        return Objects.hash(id, name, description, price, cargos);
     }
 
     @Override
@@ -97,6 +121,7 @@ public class Good {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
+                ", cargos=" + cargos +
                 '}';
     }
 }
