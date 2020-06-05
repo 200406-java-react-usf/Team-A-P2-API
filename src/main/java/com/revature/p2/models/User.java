@@ -5,32 +5,46 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name="users")
+@Table(name="users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "id"),
+        @UniqueConstraint(columnNames = "username")})
+
+
 public class User implements Serializable {
 
-    @Id @Column
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name="cargo_space")
+    @Column(name = "cargo_space")
     private int cargoSpace;
 
     @Column
     private double currency;
 
-    @Id @Column(name="location", nullable = false, unique = true)
+    @Column(name = "location", nullable = false, unique = true)
     private int locationId;
 
-    public User() { super();}
+    @JoinColumn
+    @ManyToOne(cascade={
+            CascadeType.REMOVE, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.DETACH
+    })
+    private Planet planet;
+
+
+    public User() {
+        super();}
 
     public User(String username, String password, int cargoSpace, double currency, int locationId) {
         this.username = username;
@@ -82,8 +96,9 @@ public class User implements Serializable {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public User setRole(UserRole role) {
         this.role = role;
+        return this;
     }
 
     public int getCargoSpace() {
@@ -113,23 +128,33 @@ public class User implements Serializable {
         return this;
     }
 
+    public Planet getPlanet() {
+        return planet;
+    }
+
+    public User setPlanet(Planet planet) {
+        this.planet = planet;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
-                role == user.role &&
                 cargoSpace == user.cargoSpace &&
                 Double.compare(user.currency, currency) == 0 &&
                 locationId == user.locationId &&
                 Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password);
+                Objects.equals(password, user.password) &&
+                role == user.role &&
+                Objects.equals(planet, user.planet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, cargoSpace, currency, locationId);
+        return Objects.hash(id, username, password, role, cargoSpace, currency, locationId, planet);
     }
 
     @Override
@@ -142,6 +167,7 @@ public class User implements Serializable {
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", locationId=" + locationId +
+                ", planet=" + planet +
                 '}';
     }
 }

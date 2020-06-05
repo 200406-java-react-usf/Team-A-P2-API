@@ -1,6 +1,6 @@
 package com.revature.p2.web.controllers;
 
-import com.revature.p2.services.*;
+import com.revature.p2.services.UserService;
 import com.revature.p2.web.dtos.Creds;
 import com.revature.p2.web.dtos.Principal;
 import com.revature.p2.web.security.JwtConfig;
@@ -22,7 +22,7 @@ public class AuthController {
         this.userService = service;
     }
 
-    @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes="application/json")
+    @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
     public Principal authenticate(@RequestBody Creds creds, HttpServletResponse resp) {
         Principal payload = userService.authenticate(creds);
         resp.setHeader(JwtConfig.HEADER, TokenGenerator.createJwt(payload));
