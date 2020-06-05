@@ -24,7 +24,7 @@ public class Planet {
     @Column(name = "price_modifier", nullable = false)
     private float priceModifier;
 
-    @OneToMany(mappedBy = "planet_id")
+    @OneToMany(mappedBy = "planet")
     private Set<User> users;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -37,16 +37,18 @@ public class Planet {
         super();
     }
 
-    public Planet(String name, float priceModifier, Set<Good> goods) {
+    public Planet(String name, float priceModifier, Set<User> users, Set<Good> goods) {
         this.name = name;
         this.priceModifier = priceModifier;
+        this.users = users;
         this.goods = goods;
     }
 
-    public Planet(int id, String name, float priceModifier, Set<Good> goods) {
+    public Planet(int id, String name, float priceModifier, Set<User> users, Set<Good> goods) {
         this.id = id;
         this.name = name;
         this.priceModifier = priceModifier;
+        this.users = users;
         this.goods = goods;
     }
 
