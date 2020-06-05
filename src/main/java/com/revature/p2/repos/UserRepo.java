@@ -34,7 +34,7 @@ public class UserRepo implements CrudRepo<User> {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from User u where u.username = :un", User.class)
                 .setParameter("un", username)
-                .getSingleResult();
+                .uniqueResult();
     }
 
     @Override

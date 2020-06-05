@@ -102,8 +102,6 @@ public class UserService {
     @Transactional
     public UserDTO register(User newUser) {
 
-        //TODO: WIP -- THROWING ERROR IF USERNAME IS AVAILABLE THAT ISN'T BEING CAUGHT CORRECTLY
-
         if (newUser == null || newUser.getUsername() == null || newUser.getPassword() == null ||
                 newUser.getUsername().trim().equals("") || newUser.getPassword().trim().equals("")) {
             throw new BadRequestException("Oh no! You did not provide a valid username or password.");
@@ -123,15 +121,10 @@ public class UserService {
 
     /**
      * Will check to see if the username is already in the database
-     * @param username
+     * @param username the username you are checking
      * @return true if no user is found with that username; false if user already exists with that username
      */
     private boolean checkUsername(String username) {
-        try{
-            userRepo.findUserByUsername(username);
-        } catch(NoResultException e) {
-            return true;
-        }
-        return false;
+        return userRepo.findUserByUsername(username) == null;
     }
 }
