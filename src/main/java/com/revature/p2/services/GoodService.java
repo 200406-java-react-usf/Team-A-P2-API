@@ -1,3 +1,4 @@
+
 package com.revature.p2.services;
 
 import com.revature.p2.exceptions.BadRequestException;
@@ -23,6 +24,10 @@ public class GoodService {
         this.goodRepo = repo;
     }
 
+    /**
+     * Gets all of the goods in the database
+     * @return a list of all goods in the database
+     */
     @Transactional(readOnly = true)
     public List<GoodDTO> getAllGoods() {
         return goodRepo.findAll()
@@ -31,6 +36,11 @@ public class GoodService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gets a good by its ID
+     * @param id the id of the good you want to retrieve
+     * @return the good with the provided ID
+     */
     @Transactional(readOnly = true)
     public GoodDTO getGoodById(int id) {
 
@@ -47,6 +57,11 @@ public class GoodService {
         return new GoodDTO(retrievedGood);
     }
 
+    /**
+     * Used to register a new good
+     * @param newGood good object wanting to be registered
+     * @return the newly registered good
+     */
     @Transactional
     public GoodDTO register(Good newGood) {
 
