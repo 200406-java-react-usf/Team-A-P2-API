@@ -4,6 +4,7 @@ import com.revature.p2.exceptions.AuthenticationException;
 import com.revature.p2.exceptions.BadRequestException;
 import com.revature.p2.exceptions.ResourcePersistenceException;
 import com.revature.p2.exceptions.ResourceNotFoundException;
+import com.revature.p2.models.Planet;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.UserRepo;
@@ -112,6 +113,9 @@ public class UserService {
         }
 
         newUser.setRole(UserRole.USER);
+        newUser.setLocationId(1);
+        newUser.setCargoSpace(1000);
+        newUser.setCurrency(10000);
         return new UserDTO(userRepo.save(newUser));
 
     }
