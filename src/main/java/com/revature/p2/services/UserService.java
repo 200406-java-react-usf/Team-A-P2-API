@@ -36,7 +36,6 @@ public class UserService {
      * @return a List of all users that exist in the database
      */
     @Transactional(readOnly=true)
-
     public List<UserDTO> getAllUsers() {
         return userRepo.findAll()
                         .stream()
@@ -97,7 +96,6 @@ public class UserService {
      * @param newUser user object to be registered (username & password req)
      * @return the newly registered user
      */
-
     @Transactional
     public UserDTO register(User newUser) {
 
