@@ -1,5 +1,6 @@
 package com.revature.p2.web.dtos;
 
+import com.revature.p2.models.Planet;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
 
@@ -107,5 +108,4 @@ public class UserDTO {
                 ", locationId=" + locationId +
                 '}';
     }
-
 }

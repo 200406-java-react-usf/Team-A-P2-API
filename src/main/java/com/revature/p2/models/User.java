@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "User")
 @Table(name="users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "id"),
         @UniqueConstraint(columnNames = "username")})
@@ -17,10 +17,10 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -29,10 +29,10 @@ public class User implements Serializable {
     @Column(name = "cargo_space")
     private int cargoSpace;
 
-    @Column
+    @Column(name = "currency")
     private double currency;
 
-    @Column(name = "location", nullable = false, unique = true)
+    @Column(name = "location", nullable = false)
     private int locationId;
 
     @JoinColumn
@@ -62,7 +62,7 @@ public class User implements Serializable {
         this.cargoSpace = cargoSpace;
         this.currency = currency;
         this.locationId = locationId;
-        this.role = role;
+        this.role = UserRole.USER;
     }
 
     public int getId() {

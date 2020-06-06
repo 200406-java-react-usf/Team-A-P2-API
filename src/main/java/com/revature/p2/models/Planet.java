@@ -1,6 +1,10 @@
 package com.revature.p2.models;
 
+import com.sun.istack.NotNull;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,7 +20,9 @@ public class Planet {
     @Id
     @Column(name = "planet_id", unique = true, nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+//    @OneToMany(mappedBy = "locationId")
     private int id;
+//    private Set<User> users;
 
     @Column(name = "planet_name", nullable = false, unique = true, length = 35)
     private String name;
@@ -24,12 +30,14 @@ public class Planet {
     @Column(name = "price_modifier", nullable = false)
     private float priceModifier;
 
-    @OneToMany(mappedBy = "planet")
+    @OneToMany(mappedBy = "locationId")
     private Set<User> users;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "planet_goods", joinColumns = {@JoinColumn(referencedColumnName = "planet_id")}
-            , inverseJoinColumns = {@JoinColumn(referencedColumnName = "good_id")})
+    @JoinTable(
+            name = "planet_goods",
+            joinColumns = {@JoinColumn(name = "planet_id")},
+            inverseJoinColumns = {@JoinColumn(name = "good_id")})
     private Set<Good> goods;
 
 
@@ -124,4 +132,5 @@ public class Planet {
                 ", goods=" + goods +
                 '}';
     }
+
 }
