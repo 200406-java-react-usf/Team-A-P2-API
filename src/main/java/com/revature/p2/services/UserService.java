@@ -38,10 +38,15 @@ public class UserService {
      */
     @Transactional(readOnly=true)
     public List<UserDTO> getAllUsers() {
-        return userRepo.findAll()
-                        .stream()
-                        .map(UserDTO::new)
-                        .collect(Collectors.toList());
+        try {
+            return userRepo.findAll()
+                    .stream()
+                    .map(UserDTO::new)
+                    .collect(Collectors.toList());
+        } catch(Exception e) {
+            throw new ResourceNotFoundException();
+        }
+
     }
 
     /**
