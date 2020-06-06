@@ -4,66 +4,65 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name="users")
+@Entity(name = "User")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "id"),
+        @UniqueConstraint(columnNames = "username")})
+
+
 public class User implements Serializable {
 
-    @Id @Column
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false, length = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name="cargo_space")
+    @Column(name = "cargo_space", nullable = false)
     private int cargoSpace;
 
-    @Column
+    @Column(name = "currency")
     private double currency;
 
-    @Id @Column(name="location", nullable = false, unique = true)
-    private int locationId;
+    @Column(name = "location", nullable = false, columnDefinition = "from Planet p where p.id = :location")
+    private int location;
 
-    @Id @Column(name="good_id", nullable = false, unique = true)
-    private int goodId;
+    @JoinColumn
+    @ManyToOne(cascade={
+            CascadeType.REMOVE, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.DETACH
+    })
+    private Planet planet;
 
-    @Column(name="good_avg_price", nullable = false)
-    private double avgGoodPrice;
 
-    @Column(name="good_quantity", nullable = false)
-    private int quantity;
+    public User() {
+        super();}
 
-    public User() { super();}
-
-    public User(String username, String password, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity) {
+    public User(String username, String password, int cargoSpace, double currency, int location) {
         this.username = username;
         this.password = password;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
-        this.locationId = locationId;
-        this.goodId = goodId;
-        this.avgGoodPrice = avgGoodPrice;
-        this.quantity = quantity;
+        this.location = location;
         this.role = UserRole.USER;
     }
 
-    public User(int id, String username, String password, int cargoSpace, double currency, int locationId, int goodId, double avgGoodPrice, int quantity, UserRole role) {
+    public User(int id, String username, String password, int cargoSpace, double currency, int location, UserRole role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
-        this.locationId = locationId;
-        this.goodId = goodId;
-        this.avgGoodPrice = avgGoodPrice;
-        this.quantity = quantity;
-        this.role = role;
+        this.location = location;
+        this.role = UserRole.USER;
     }
 
     public int getId() {
@@ -97,8 +96,9 @@ public class User implements Serializable {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public User setRole(UserRole role) {
         this.role = role;
+        return this;
     }
 
     public int getCargoSpace() {
@@ -119,39 +119,21 @@ public class User implements Serializable {
         return this;
     }
 
-    public int getLocationId() {
-        return locationId;
+    public int getLocation() {
+        return location;
     }
 
-    public User setLocationId(int locationId) {
-        this.locationId = locationId;
+    public User setLocationId(int location) {
+        this.location = location;
         return this;
     }
 
-    public int getGoodId() {
-        return goodId;
+    public Planet getPlanet() {
+        return planet;
     }
 
-    public User setGoodId(int goodId) {
-        this.goodId = goodId;
-        return this;
-    }
-
-    public double getAvgGoodPrice() {
-        return avgGoodPrice;
-    }
-
-    public User setAvgGoodPrice(double avgGoodPrice) {
-        this.avgGoodPrice = avgGoodPrice;
-        return this;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public User setQuantity(int quantity) {
-        this.quantity = quantity;
+    public User setPlanet(Planet planet) {
+        this.planet = planet;
         return this;
     }
 
@@ -161,20 +143,18 @@ public class User implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
-                role == user.role &&
                 cargoSpace == user.cargoSpace &&
                 Double.compare(user.currency, currency) == 0 &&
-                locationId == user.locationId &&
-                goodId == user.goodId &&
-                Double.compare(user.avgGoodPrice, avgGoodPrice) == 0 &&
-                quantity == user.quantity &&
+                location == user.location &&
                 Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password);
+                Objects.equals(password, user.password) &&
+                role == user.role &&
+                Objects.equals(planet, user.planet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, cargoSpace, currency, locationId, goodId, avgGoodPrice, quantity);
+        return Objects.hash(id, username, password, role, cargoSpace, currency, location, planet);
     }
 
     @Override
@@ -186,10 +166,8 @@ public class User implements Serializable {
                 ", role=" + role +
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
-                ", locationId=" + locationId +
-                ", goodId=" + goodId +
-                ", avgGoodPrice=" + avgGoodPrice +
-                ", quantity=" + quantity +
+                ", location=" + location +
+                ", planet=" + planet +
                 '}';
     }
 }

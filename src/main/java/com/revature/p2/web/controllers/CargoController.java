@@ -1,10 +1,9 @@
 package com.revature.p2.web.controllers;
 
-import com.revature.p2.models.Good;
-import com.revature.p2.models.Good;
-import com.revature.p2.services.GoodService;
+import com.revature.p2.models.Cargo;
+import com.revature.p2.services.CargoService;
 
-import com.revature.p2.web.dtos.GoodDTO;
+import com.revature.p2.web.dtos.CargoDTO;
 import com.revature.p2.web.security.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,34 +14,34 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/goods")
-public class GoodController {
+@RequestMapping("/cargos")
+public class CargoController {
 
-    private GoodService goodService;
+    private CargoService cargoService;
 
     @Autowired
-    public GoodController(GoodService service) {
+    public CargoController(CargoService service) {
         super();
-        this.goodService = service;
+        this.cargoService = service;
     }
 
     @GetMapping
     @Secured(allowedRoles={"Admin"})
-    public List<GoodDTO> getAllGoods() {
+    public List<CargoDTO> getAllCargos() {
 
-        return goodService.getAllGoods();
+        return cargoService.getAllCargos();
     }
 
     @GetMapping(value="{id}")
-    public GoodDTO getGoodById(@PathVariable int id, HttpServletRequest req) {
+    public CargoDTO getGoodById(@PathVariable int id, HttpServletRequest req) {
 
-        return goodService.getGoodById(id);
+        return cargoService.getCargoById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public GoodDTO registerNewGood(@RequestBody Good newGood) {
+    public CargoDTO registerNewCargo(@RequestBody Cargo newCargo) {
 
-        return goodService.register(newGood);
+        return cargoService.register(newCargo);
     }
 }

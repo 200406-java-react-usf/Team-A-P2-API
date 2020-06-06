@@ -2,92 +2,100 @@ package com.revature.p2.models;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
-@Entity
-@Table(name="Cargo")
+@Entity(name = "Cargo")
+@Table(name = "cargo", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "good_id"),
+        @UniqueConstraint(columnNames = "user_id")
+})
+
+
 public class Cargo {
 
     @Id
-    @Column(name="cargo_id")
+    @Column(name = "good_id", unique = true, nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="cargo_user_id", nullable = true, unique = true)
+    @Column(name = "user_id", unique = true, nullable = false)
     private int userId;
 
-    @Column(name="cargo_planet_id", nullable = true, unique = true)
-    private int planetId;
-
-    @Column(name="cargo_name", nullable = false, unique = true)
-    private String name;
-
-    @Column(name="cargo_quantity", nullable = true)
+    @Column(name = "good_quantity")
     private int quantity;
 
-    @Column(name="cargo_avg_price", nullable = true)
-    private float price;
+    @Column(name = "cost_of_goods", nullable = false)
+    private int costOfGoods;
 
-    public Cargo(String name, int quantity, float price) {
-        this.name = name;
-        this.quantity = quantity;
-        this.price = price;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "cargo_goods",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "good_id")})
+    private Set<Good> goods;
+
+
+    public Cargo() {
+        super();
     }
 
-    public Cargo(int id, int uId, int pId, String name, String description, int price) {
-        this.id = id;
-        this.userId = uId;
-        this.planetId = pId;
-        this.name = name;
+    public Cargo(int userId, int quantity, int costOfGoods, int planetId, float price, int cargoQuantity, int cargoUserId, String name, Set<Good> goods) {
+        this.userId = userId;
         this.quantity = quantity;
-        this.price = price;
+        this.costOfGoods = costOfGoods;
+        this.goods = goods;
+    }
+
+    public Cargo(int id, int userId, int quantity, int costOfGoods, int planetId, float price, int cargoQuantity, int cargoUserId, String name, Set<Good> goods) {
+        this.id = id;
+        this.userId = userId;
+        this.quantity = quantity;
+        this.costOfGoods = costOfGoods;
+        this.goods = goods;
     }
 
     public int getId() {
         return id;
-    }
-    public int getUserId() {
-        return userId;
-    }
-    public int getplanetId() {
-        return planetId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public float getAvgPrice() {
-        return price;
     }
 
     public Cargo setId(int id) {
         this.id = id;
         return this;
     }
-    public Cargo setUserId(int id) {
-        this.userId = id;
-        return this;
+
+    public int getUserId() {
+        return userId;
     }
-    public Cargo setPlanetId(int id) {
-        this.planetId = id;
-        return this;
-    }
-    public Cargo setName(String name) {
-        this.name = name;
+
+    public Cargo setUserId(int userId) {
+        this.userId = userId;
         return this;
     }
 
-    public Cargo setQuantity() {
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Cargo setQuantity(int quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public Cargo setAvgPrice() {
-        this.price = price;
+    public int getCostOfGoods() {
+        return costOfGoods;
+    }
+
+    public Cargo setCostOfGoods(int costOfGoods) {
+        this.costOfGoods = costOfGoods;
+        return this;
+    }
+
+    public Set<Good> getGoods() {
+        return goods;
+    }
+
+    public Cargo setGoods(Set<Good> goods) {
+        this.goods = goods;
         return this;
     }
 
@@ -97,22 +105,25 @@ public class Cargo {
         if (o == null || getClass() != o.getClass()) return false;
         Cargo cargo = (Cargo) o;
         return id == cargo.id &&
-                price == cargo.price &&
-                Objects.equals(name, cargo.name);
+                userId == cargo.userId &&
+                quantity == cargo.quantity &&
+                costOfGoods == cargo.costOfGoods &&
+                Objects.equals(goods, cargo.goods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, quantity, price);
+        return Objects.hash(id, userId, quantity, costOfGoods, goods);
     }
 
     @Override
     public String toString() {
         return "Cargo{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", quantity='" + quantity + '\'' +
-                ", avg price=" + price +
+                ", userId=" + userId +
+                ", quantity=" + quantity +
+                ", costOfGoods=" + costOfGoods +
+                ", goods=" + goods +
                 '}';
     }
 }
