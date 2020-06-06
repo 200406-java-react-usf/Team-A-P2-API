@@ -168,7 +168,6 @@ public class User implements Serializable {
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", location=" + location +
-                ", planet=" +
                 '}';
     }
 }
