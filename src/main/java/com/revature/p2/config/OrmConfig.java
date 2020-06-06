@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.Properties;
 
 @Configuration
-// @PropertySource("classpath:app.properties")
+@PropertySource("classpath:app.properties")
 @EnableTransactionManagement
 public class OrmConfig {
 
