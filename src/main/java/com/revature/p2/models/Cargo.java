@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name="cargo", uniqueConstraints = {
+@Entity(name = "Cargo")
+@Table(name = "cargo", uniqueConstraints = {
         @UniqueConstraint(columnNames = "good_id"),
         @UniqueConstraint(columnNames = "user_id")
 })
@@ -18,33 +18,20 @@ public class Cargo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user_id", nullable = true, unique = true)
+    @Column(name = "user_id", unique = true, nullable = false)
     private int userId;
 
-    @Column(name = "good_quantity", nullable = true)
+    @Column(name = "good_quantity")
     private int quantity;
 
     @Column(name = "cost_of_goods", nullable = false)
     private int costOfGoods;
 
-    @Column(name = "cargo_planet_id", nullable = true, unique = true)
-    private int planetId;
-
-    @Column(name = "cargo_avg_price", nullable = true)
-    private float price;
-
-    @Column(name = "cargo_quantity", nullable = true)
-    private int cargoQuantity;
-
-    @Column(name = "cargo_user_id")
-    private int cargoUserId;
-
-    @Column(name = "name")
-    private String name;
-
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "cargo_goods", joinColumns = {@JoinColumn(referencedColumnName = "user_id")}
-            , inverseJoinColumns = {@JoinColumn(referencedColumnName = "good_id")})
+    @JoinTable(
+            name = "cargo_goods",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "good_id")})
     private Set<Good> goods;
 
 
@@ -56,11 +43,6 @@ public class Cargo {
         this.userId = userId;
         this.quantity = quantity;
         this.costOfGoods = costOfGoods;
-        this.planetId = planetId;
-        this.price = price;
-        this.cargoQuantity = cargoQuantity;
-        this.cargoUserId = cargoUserId;
-        this.name = name;
         this.goods = goods;
     }
 
@@ -69,11 +51,6 @@ public class Cargo {
         this.userId = userId;
         this.quantity = quantity;
         this.costOfGoods = costOfGoods;
-        this.planetId = planetId;
-        this.price = price;
-        this.cargoQuantity = cargoQuantity;
-        this.cargoUserId = cargoUserId;
-        this.name = name;
         this.goods = goods;
     }
 
@@ -113,51 +90,6 @@ public class Cargo {
         return this;
     }
 
-    public int getPlanetId() {
-        return planetId;
-    }
-
-    public Cargo setPlanetId(int planetId) {
-        this.planetId = planetId;
-        return this;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public Cargo setPrice(float price) {
-        this.price = price;
-        return this;
-    }
-
-    public int getCargoQuantity() {
-        return cargoQuantity;
-    }
-
-    public Cargo setCargoQuantity(int cargoQuantity) {
-        this.cargoQuantity = cargoQuantity;
-        return this;
-    }
-
-    public int getCargoUserId() {
-        return cargoUserId;
-    }
-
-    public Cargo setCargoUserId(int cargoUserId) {
-        this.cargoUserId = cargoUserId;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Cargo setName(String name) {
-        this.name = name;
-        return this;
-    }
-
     public Set<Good> getGoods() {
         return goods;
     }
@@ -176,17 +108,12 @@ public class Cargo {
                 userId == cargo.userId &&
                 quantity == cargo.quantity &&
                 costOfGoods == cargo.costOfGoods &&
-                planetId == cargo.planetId &&
-                Float.compare(cargo.price, price) == 0 &&
-                cargoQuantity == cargo.cargoQuantity &&
-                cargoUserId == cargo.cargoUserId &&
-                Objects.equals(name, cargo.name) &&
                 Objects.equals(goods, cargo.goods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, quantity, costOfGoods, planetId, price, cargoQuantity, cargoUserId, name, goods);
+        return Objects.hash(id, userId, quantity, costOfGoods, goods);
     }
 
     @Override
@@ -196,11 +123,6 @@ public class Cargo {
                 ", userId=" + userId +
                 ", quantity=" + quantity +
                 ", costOfGoods=" + costOfGoods +
-                ", planetId=" + planetId +
-                ", price=" + price +
-                ", cargoQuantity=" + cargoQuantity +
-                ", cargoUserId=" + cargoUserId +
-                ", name='" + name + '\'' +
                 ", goods=" + goods +
                 '}';
     }

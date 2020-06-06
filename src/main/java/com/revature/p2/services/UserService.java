@@ -36,6 +36,7 @@ public class UserService {
      * @return a List of all users that exist in the database
      */
     @Transactional(readOnly=true)
+
     public List<UserDTO> getAllUsers() {
         return userRepo.findAll()
                         .stream()
@@ -64,6 +65,7 @@ public class UserService {
         return new UserDTO(retrievedUser);
     }
 
+
     /**
      * Used for login purposes. Will validate that user is logging in with correct username & password
      * @param creds a username & password
@@ -90,12 +92,12 @@ public class UserService {
 
     }
 
-
     /**
      * Will register a new user in the database, checking to see if the username exists before persisting
      * @param newUser user object to be registered (username & password req)
      * @return the newly registered user
      */
+
     @Transactional
     public UserDTO register(User newUser) {
 

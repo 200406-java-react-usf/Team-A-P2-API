@@ -12,7 +12,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.Properties;
 
 @Configuration
+<<<<<<< HEAD
 @PropertySource("classpath:app.properties")
+=======
+// @PropertySource("classpath:app.properties")
+>>>>>>> c34d4ce9a5edf9ce19a9eb18d3c46a79f44de4a9
 @EnableTransactionManagement
 public class OrmConfig {
 
@@ -64,7 +68,7 @@ public class OrmConfig {
         hibernateProperties.setProperty(Environment.DIALECT, "org.hibernate.dialect.PostgreSQL95Dialect");
         hibernateProperties.setProperty(Environment.SHOW_SQL, "true");
         hibernateProperties.setProperty(Environment.FORMAT_SQL, "true");
-        hibernateProperties.setProperty(Environment.HBM2DDL_AUTO, "update");
+        hibernateProperties.setProperty(Environment.HBM2DDL_AUTO, "validate");
         return hibernateProperties;
     }
 

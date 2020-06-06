@@ -12,7 +12,7 @@ public class UserDTO {
     private UserRole role;
     private int cargoSpace;
     private Number currency;
-    private int locationId;
+    private int location;
 
     public UserDTO() {
         super();
@@ -24,7 +24,7 @@ public class UserDTO {
         this.role = user.getRole();
         this.cargoSpace = user.getCargoSpace();
         this.currency = user.getCurrency();
-        this.locationId = user.getLocationId();
+        this.location = user.getLocation();
     }
 
     public int getId() {
@@ -71,12 +71,12 @@ public class UserDTO {
         return this;
     }
 
-    public int getLocationId() {
-        return locationId;
+    public int getLocation() {
+        return location;
     }
 
-    public UserDTO setLocationId(int locationId) {
-        this.locationId = locationId;
+    public UserDTO setLocationId(int location) {
+        this.location = location;
         return this;
     }
 
@@ -88,12 +88,12 @@ public class UserDTO {
         return id == userDTO.id &&
                 role == userDTO.role &&
                 cargoSpace == userDTO.cargoSpace &&
-                locationId == userDTO.locationId;
+                location == userDTO.location;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, role, cargoSpace, currency, locationId);
+        return Objects.hash(id, username, role, cargoSpace, currency, location);
     }
 
     @Override
@@ -104,8 +104,7 @@ public class UserDTO {
                 ", role=" + role +
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
-                ", locationId=" + locationId +
+                ", location=" + location +
                 '}';
     }
-
 }
