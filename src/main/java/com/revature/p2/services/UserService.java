@@ -29,7 +29,7 @@ public class UserService {
         this.userRepo = repo;
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<UserDTO> getAllUsers() {
         return userRepo.findAll()
                         .stream()
@@ -53,7 +53,7 @@ public class UserService {
         return new UserDTO(retrievedUser);
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public Principal authenticate(Creds creds) {
 
         if (creds == null || creds.getUsername() == null || creds.getPassword() == null
@@ -73,7 +73,6 @@ public class UserService {
         return new Principal(retrievedUser);
 
     }
-
 
     @Transactional
     public UserDTO register(User newUser) {

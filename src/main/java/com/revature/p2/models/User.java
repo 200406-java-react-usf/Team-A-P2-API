@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name="users", uniqueConstraints = {
+@Entity(name = "User")
+@Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "id"),
         @UniqueConstraint(columnNames = "username")})
 
@@ -17,23 +17,23 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "cargo_space")
+    @Column(name = "cargo_space", nullable = false)
     private int cargoSpace;
 
-    @Column
+    @Column(name = "currency")
     private double currency;
 
-    @Column(name = "location", nullable = false, unique = true)
-    private int locationId;
+    @Column(name = "location", nullable = false, columnDefinition = "from Planet p where p.id = :location")
+    private int location;
 
     @JoinColumn
     @ManyToOne(cascade={
@@ -46,23 +46,23 @@ public class User implements Serializable {
     public User() {
         super();}
 
-    public User(String username, String password, int cargoSpace, double currency, int locationId) {
+    public User(String username, String password, int cargoSpace, double currency, int location) {
         this.username = username;
         this.password = password;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
-        this.locationId = locationId;
+        this.location = location;
         this.role = UserRole.USER;
     }
 
-    public User(int id, String username, String password, int cargoSpace, double currency, int locationId, UserRole role) {
+    public User(int id, String username, String password, int cargoSpace, double currency, int location, UserRole role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.cargoSpace = cargoSpace;
         this.currency = currency;
-        this.locationId = locationId;
-        this.role = role;
+        this.location = location;
+        this.role = UserRole.USER;
     }
 
     public int getId() {
@@ -119,12 +119,12 @@ public class User implements Serializable {
         return this;
     }
 
-    public int getLocationId() {
-        return locationId;
+    public int getLocation() {
+        return location;
     }
 
-    public User setLocationId(int locationId) {
-        this.locationId = locationId;
+    public User setLocationId(int location) {
+        this.location = location;
         return this;
     }
 
@@ -145,7 +145,7 @@ public class User implements Serializable {
         return id == user.id &&
                 cargoSpace == user.cargoSpace &&
                 Double.compare(user.currency, currency) == 0 &&
-                locationId == user.locationId &&
+                location == user.location &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 role == user.role &&
@@ -154,7 +154,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, cargoSpace, currency, locationId, planet);
+        return Objects.hash(id, username, password, role, cargoSpace, currency, location, planet);
     }
 
     @Override
@@ -166,7 +166,7 @@ public class User implements Serializable {
                 ", role=" + role +
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
-                ", locationId=" + locationId +
+                ", location=" + location +
                 ", planet=" + planet +
                 '}';
     }

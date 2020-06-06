@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name="planets", uniqueConstraints = {
+@Entity(name = "Planet")
+@Table(name = "planets", uniqueConstraints = {
         @UniqueConstraint(columnNames = "planet_id"),
         @UniqueConstraint(columnNames = "planet_name")
 })
@@ -24,12 +24,14 @@ public class Planet {
     @Column(name = "price_modifier", nullable = false)
     private float priceModifier;
 
-    @OneToMany(mappedBy = "planet")
+    @OneToMany(mappedBy = "location")
     private Set<User> users;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "planet_goods", joinColumns = {@JoinColumn(referencedColumnName = "planet_id")}
-            , inverseJoinColumns = {@JoinColumn(referencedColumnName = "good_id")})
+    @JoinTable(
+            name = "planet_goods",
+            joinColumns = {@JoinColumn(name = "planet_id")},
+            inverseJoinColumns = {@JoinColumn(name = "good_id")})
     private Set<Good> goods;
 
 
@@ -124,4 +126,5 @@ public class Planet {
                 ", goods=" + goods +
                 '}';
     }
+
 }

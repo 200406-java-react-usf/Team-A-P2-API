@@ -1,12 +1,16 @@
 package com.revature.p2.services;
 
+import com.revature.p2.exceptions.BadRequestException;
+import com.revature.p2.exceptions.ResourceNotFoundException;
 import com.revature.p2.models.Cargo;
 import com.revature.p2.repos.CargoRepo;
+import com.revature.p2.web.dtos.CargoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -20,37 +24,43 @@ public class CargoService {
         this.cargoRepo = repo;
     }
 
-    @Transactional(readOnly=true)
-    public List<Cargo> getAllCargos() {
-        return cargoRepo.findAll();
+    @Transactional(readOnly = true)
+    public List<CargoDTO> getAllCargos() {
+        return cargoRepo.findAll()
+                .stream()
+                .map(CargoDTO::new)
+                .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly=true)
-    public Cargo getCargoByID(int id) {
-        Cargo retrievedGood = cargoRepo.findById(id);
-        return retrievedGood;
-    }
+    @Transactional(readOnly = true)
+    public CargoDTO getCargoById(int id) {
 
-    @Transactional(readOnly=true)
-    public List<Cargo> getCargoByUserID(int id) {
-        List<Cargo> retrievedGood = (List<Cargo>) cargoRepo.findByUserId(id);
-        return retrievedGood;
-    }
+        if (id <= 0) {
+            throw new BadRequestException();
+        }
 
-    @Transactional(readOnly=true)
-    public List<Cargo> getCargoByPlanetID(int id) {
-        List<Cargo> retrievedGood = (List<Cargo>) cargoRepo.findByPlanetId(id);
-        return retrievedGood;
-    }
-    @Transactional
-    public Cargo register(Cargo newGood) {
-        return null;
+        Cargo retrievedCargo = cargoRepo.findById(id);
+
+        if (retrievedCargo == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        return new CargoDTO(retrievedCargo);
     }
 
     @Transactional
-    public Cargo updateCargo(Cargo updatedGood) {
-        cargoRepo.update(updatedGood);
-        return updatedGood;
+    public CargoDTO register(Cargo newCargo) {
+
+        //TODO: Validation
+
+        return new CargoDTO(cargoRepo.save(newCargo));
+
+    }
+
+    @Transactional
+    public Cargo updateCargo(Cargo updatedCargo) {
+        cargoRepo.update(updatedCargo);
+        return updatedCargo;
     }
 
 }
