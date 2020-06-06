@@ -26,6 +26,11 @@ public class PlanetService {
         this.planetRepo = repo;
     }
 
+
+    /**
+     * Gets all of the planets in the database
+     * @return a list of all planets in the database
+     */
     @Transactional(readOnly = true)
     public List<PlanetDTO> getAllPlanets() {
         return planetRepo.findAll()
@@ -34,6 +39,11 @@ public class PlanetService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gets a planet by its ID
+     * @param id the id of the planet you want to retrieve
+     * @return the planet with the provided ID
+     */
     @Transactional(readOnly = true)
     public PlanetDTO getPlanetById(int id) {
 
@@ -50,6 +60,11 @@ public class PlanetService {
         return new PlanetDTO(retrievedPlanet);
     }
 
+    /**
+     * Used to register a new planet
+     * @param newPlanet planet object wanting to be registered
+     * @return the newly registered planet
+     */
     @Transactional
     public PlanetDTO register(Planet newPlanet) {
 

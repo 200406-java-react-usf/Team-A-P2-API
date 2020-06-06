@@ -24,6 +24,10 @@ public class CargoService {
         this.cargoRepo = repo;
     }
 
+    /**
+     * Gets all of the cargo in the database
+     * @return a list of all cargo in the database
+     */
     @Transactional(readOnly = true)
     public List<CargoDTO> getAllCargos() {
         return cargoRepo.findAll()
@@ -32,6 +36,11 @@ public class CargoService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gets a cargo by its ID
+     * @param id the id of the cargo you want to retrieve
+     * @return the cargo with the provided ID
+     */
     @Transactional(readOnly = true)
     public CargoDTO getCargoById(int id) {
 
@@ -48,6 +57,11 @@ public class CargoService {
         return new CargoDTO(retrievedCargo);
     }
 
+    /**
+     * Used to register a new cargo
+     * @param newCargo the new cargo to be registered
+     * @return the newly registered cargo
+     */
     @Transactional
     public CargoDTO register(Cargo newCargo) {
 
@@ -57,6 +71,11 @@ public class CargoService {
 
     }
 
+    /**
+     * Used to update the info for a cargo
+     * @param updatedCargo the updated info for the cargo
+     * @return the updated cargo
+     */
     @Transactional
     public Cargo updateCargo(Cargo updatedCargo) {
         cargoRepo.update(updatedCargo);
