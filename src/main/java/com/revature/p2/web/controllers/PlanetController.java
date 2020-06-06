@@ -7,6 +7,7 @@ import com.revature.p2.web.dtos.PlanetDTO;
 import com.revature.p2.web.dtos.PlanetDTO;
 import com.revature.p2.web.security.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class PlanetController {
         return planetService.getPlanetById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
     public PlanetDTO registerNewPlanet(@RequestBody Planet newPlanet) {
 

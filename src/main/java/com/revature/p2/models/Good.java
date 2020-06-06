@@ -20,7 +20,7 @@ public class Good {
     @Column(name = "good_name", nullable = false, unique = true, length = 35)
     private String name;
 
-    @Column(name = "good_description", nullable = false, unique = true, length = 256)
+    @Column(name = "good_description", nullable = false, length = 256)
     private String description;
 
     @Column(name = "good_base_price", nullable = false)

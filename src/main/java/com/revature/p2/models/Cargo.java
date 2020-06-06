@@ -21,18 +21,18 @@ public class Cargo {
     @Column(name = "user_id", unique = true, nullable = false)
     private int userId;
 
-    @Column(name = "good_quantity")
+    @Column(name = "good_quantity", nullable = false)
     private int quantity;
 
     @Column(name = "cost_of_goods", nullable = false)
     private int costOfGoods;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "cargo_goods",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "good_id")})
-    private Set<Good> goods;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "cargo_goods",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "good_id")})
+//    private Set<Good> goods;
 
 
     public Cargo() {
@@ -43,7 +43,7 @@ public class Cargo {
         this.userId = userId;
         this.quantity = quantity;
         this.costOfGoods = costOfGoods;
-        this.goods = goods;
+//        this.goods = goods;
     }
 
     public Cargo(int id, int userId, int quantity, int costOfGoods, int planetId, float price, int cargoQuantity, int cargoUserId, String name, Set<Good> goods) {
@@ -51,7 +51,7 @@ public class Cargo {
         this.userId = userId;
         this.quantity = quantity;
         this.costOfGoods = costOfGoods;
-        this.goods = goods;
+//        this.goods = goods;
     }
 
     public int getId() {
@@ -90,14 +90,14 @@ public class Cargo {
         return this;
     }
 
-    public Set<Good> getGoods() {
-        return goods;
-    }
-
-    public Cargo setGoods(Set<Good> goods) {
-        this.goods = goods;
-        return this;
-    }
+//    public Set<Good> getGoods() {
+//        return goods;
+//    }
+//
+//    public Cargo setGoods(Set<Good> goods) {
+//        this.goods = goods;
+//        return this;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -107,13 +107,14 @@ public class Cargo {
         return id == cargo.id &&
                 userId == cargo.userId &&
                 quantity == cargo.quantity &&
-                costOfGoods == cargo.costOfGoods &&
-                Objects.equals(goods, cargo.goods);
+                costOfGoods == cargo.costOfGoods;
+//                &&
+//                Objects.equals(goods, cargo.goods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, quantity, costOfGoods, goods);
+        return Objects.hash(id, userId, quantity, costOfGoods);
     }
 
     @Override
@@ -123,7 +124,7 @@ public class Cargo {
                 ", userId=" + userId +
                 ", quantity=" + quantity +
                 ", costOfGoods=" + costOfGoods +
-                ", goods=" + goods +
+//                ", goods=" + goods +
                 '}';
     }
 }

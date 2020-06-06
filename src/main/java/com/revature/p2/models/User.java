@@ -32,7 +32,7 @@ public class User implements Serializable {
     @Column(name = "currency")
     private double currency;
 
-    @Column(name = "location", nullable = false, columnDefinition = "from Planet p where p.id = :location")
+    @Column(name = "location", nullable = false)
     private int location;
 
     @JoinColumn
