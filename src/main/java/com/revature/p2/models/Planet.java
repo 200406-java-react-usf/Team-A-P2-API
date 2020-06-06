@@ -21,9 +21,6 @@ public class Planet {
     @Column(name = "planet_name", nullable = false, unique = true, length = 35)
     private String name;
 
-    @Column(name = "price_modifier", nullable = false)
-    private float priceModifier;
-
     @OneToMany(mappedBy = "location")
     private Set<User> users;
 
@@ -39,17 +36,15 @@ public class Planet {
         super();
     }
 
-    public Planet(String name, float priceModifier, Set<User> users, Set<Good> goods) {
+    public Planet(String name, Set<User> users, Set<Good> goods) {
         this.name = name;
-        this.priceModifier = priceModifier;
         this.users = users;
         this.goods = goods;
     }
 
-    public Planet(int id, String name, float priceModifier, Set<User> users, Set<Good> goods) {
+    public Planet(int id, String name, Set<User> users, Set<Good> goods) {
         this.id = id;
         this.name = name;
-        this.priceModifier = priceModifier;
         this.users = users;
         this.goods = goods;
     }
@@ -72,14 +67,14 @@ public class Planet {
         return this;
     }
 
-    public float getPriceModifier() {
-        return priceModifier;
-    }
-
-    public Planet setPriceModifier(float priceModifier) {
-        this.priceModifier = priceModifier;
-        return this;
-    }
+//    public float getPriceModifier() {
+//        return priceModifier;
+//    }
+//
+//    public Planet setPriceModifier(float priceModifier) {
+//        this.priceModifier = priceModifier;
+//        return this;
+//    }
 
     public Set<User> getUsers() {
         return users;
@@ -105,7 +100,7 @@ public class Planet {
         if (o == null || getClass() != o.getClass()) return false;
         Planet planet = (Planet) o;
         return id == planet.id &&
-                Float.compare(planet.priceModifier, priceModifier) == 0 &&
+//                Float.compare(planet.priceModifier, priceModifier) == 0 &&
                 Objects.equals(name, planet.name) &&
                 Objects.equals(users, planet.users) &&
                 Objects.equals(goods, planet.goods);
@@ -113,7 +108,7 @@ public class Planet {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, priceModifier, users, goods);
+        return Objects.hash(id, name, users, goods);
     }
 
     @Override
@@ -121,7 +116,7 @@ public class Planet {
         return "Planet{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", priceModifier=" + priceModifier +
+//                ", priceModifier=" + priceModifier +
                 ", users=" + users +
                 ", goods=" + goods +
                 '}';

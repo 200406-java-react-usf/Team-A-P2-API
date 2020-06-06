@@ -10,8 +10,6 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "good_id"),
         @UniqueConstraint(columnNames = "user_id")
 })
-
-
 public class Cargo implements Serializable {
 
     @Id

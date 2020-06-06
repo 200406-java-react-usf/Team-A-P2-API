@@ -3,6 +3,7 @@ package com.revature.p2.models;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "users", uniqueConstraints = {
@@ -41,6 +42,12 @@ public class User implements Serializable {
 //            CascadeType.PERSIST, CascadeType.DETACH
 //    })
 //    private Planet planet;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "cargo",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "good_id")})
+    private Set<Cargo> cargo;
 
 
     public User() {

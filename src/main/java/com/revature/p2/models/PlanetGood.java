@@ -10,8 +10,6 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "good_id"),
         @UniqueConstraint(columnNames = "planet_id")
 })
-
-
 public class PlanetGood implements Serializable {
 
     @Id
