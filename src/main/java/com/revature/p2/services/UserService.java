@@ -115,7 +115,7 @@ public class UserService {
         newUser.setRole(UserRole.USER);
         newUser.setLocationId(1);
         newUser.setCargoSpace(1000);
-        newUser.setCurrency(10000);
+        newUser.setCurrency(1000);
         return new UserDTO(userRepo.save(newUser));
 
     }
