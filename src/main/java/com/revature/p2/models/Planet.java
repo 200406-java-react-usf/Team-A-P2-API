@@ -1,15 +1,11 @@
 package com.revature.p2.models;
 
-import com.sun.istack.NotNull;
-import org.hibernate.annotations.NaturalId;
-
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name="planets", uniqueConstraints = {
+@Entity(name = "Planet")
+@Table(name = "planets", uniqueConstraints = {
         @UniqueConstraint(columnNames = "planet_id"),
         @UniqueConstraint(columnNames = "planet_name")
 })
@@ -20,9 +16,7 @@ public class Planet {
     @Id
     @Column(name = "planet_id", unique = true, nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-//    @OneToMany(mappedBy = "locationId")
     private int id;
-//    private Set<User> users;
 
     @Column(name = "planet_name", nullable = false, unique = true, length = 35)
     private String name;
@@ -30,7 +24,7 @@ public class Planet {
     @Column(name = "price_modifier", nullable = false)
     private float priceModifier;
 
-    @OneToMany(mappedBy = "locationId")
+    @OneToMany(mappedBy = "location")
     private Set<User> users;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -1,12 +1,16 @@
 package com.revature.p2.services;
 
+import com.revature.p2.exceptions.BadRequestException;
+import com.revature.p2.exceptions.ResourceNotFoundException;
 import com.revature.p2.models.Good;
 import com.revature.p2.repos.GoodRepo;
+import com.revature.p2.web.dtos.GoodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GoodService {
@@ -19,20 +23,37 @@ public class GoodService {
         this.goodRepo = repo;
     }
 
-    @Transactional(readOnly=true)
-    public List<Good> getAllGoods() {
-        return goodRepo.findAll();
+    @Transactional(readOnly = true)
+    public List<GoodDTO> getAllGoods() {
+        return goodRepo.findAll()
+                .stream()
+                .map(GoodDTO::new)
+                .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly=true)
-    public Good getGoodByID(int id) {
+    @Transactional(readOnly = true)
+    public GoodDTO getGoodById(int id) {
+
+        if (id <= 0) {
+            throw new BadRequestException();
+        }
+
         Good retrievedGood = goodRepo.findById(id);
-        return retrievedGood;
+
+        if (retrievedGood == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        return new GoodDTO(retrievedGood);
     }
 
     @Transactional
-    public Good register(Good newGood) {
-        return goodRepo.save(newGood);
+    public GoodDTO register(Good newGood) {
+
+        //TODO: Validation
+
+        return new GoodDTO(goodRepo.save(newGood));
+
     }
 
 }

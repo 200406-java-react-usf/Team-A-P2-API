@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name="goods", uniqueConstraints = {
+@Entity(name = "Good")
+@Table(name = "goods", uniqueConstraints = {
         @UniqueConstraint(columnNames = "good_id")
 })
 

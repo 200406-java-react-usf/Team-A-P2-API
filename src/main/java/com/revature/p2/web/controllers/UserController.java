@@ -33,7 +33,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value="/id/{id}")
+    @GetMapping(value="{id}")
     public UserDTO getUserById(@PathVariable int id, HttpServletRequest req) {
         
         return userService.getUserById(id);

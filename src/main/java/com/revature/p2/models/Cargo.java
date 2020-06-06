@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name="cargo", uniqueConstraints = {
+@Entity(name = "Cargo")
+@Table(name = "cargo", uniqueConstraints = {
         @UniqueConstraint(columnNames = "good_id"),
         @UniqueConstraint(columnNames = "user_id")
 })
@@ -18,10 +18,10 @@ public class Cargo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user_id", nullable = true, unique = true)
+    @Column(name = "user_id", unique = true, nullable = false)
     private int userId;
 
-    @Column(name = "good_quantity", nullable = true)
+    @Column(name = "good_quantity")
     private int quantity;
 
     @Column(name = "cost_of_goods", nullable = false)
