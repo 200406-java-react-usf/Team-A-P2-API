@@ -1,9 +1,6 @@
 package com.revature.p2.services;
 
-import com.revature.p2.exceptions.AuthenticationException;
-import com.revature.p2.exceptions.BadRequestException;
-import com.revature.p2.exceptions.ResourcePersistenceException;
-import com.revature.p2.exceptions.ResourceNotFoundException;
+import com.revature.p2.exceptions.*;
 import com.revature.p2.models.Planet;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
@@ -12,6 +9,7 @@ import com.revature.p2.web.dtos.Creds;
 import com.revature.p2.web.dtos.Principal;
 import com.revature.p2.web.dtos.UserDTO;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,6 +120,22 @@ public class UserService {
         newUser.setCargoSpace(1000);
         newUser.setCurrency(1000);
         return new UserDTO(userRepo.save(newUser));
+
+    }
+
+    /**
+     * Will delete a user from the database
+     * Admin access required for this action (for now)
+     * @param userId the id of the user you want to delete
+     * @return true if user was deleted, false if user was not
+     */
+    @Transactional
+    public boolean delete(@NotNull int userId) {
+        try {
+            return userRepo.deleteById(userId);
+        } catch (Exception e) {
+            throw new InternalServerErrorException();
+        }
 
     }
 
