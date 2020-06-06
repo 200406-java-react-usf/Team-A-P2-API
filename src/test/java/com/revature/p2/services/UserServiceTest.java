@@ -1,8 +1,12 @@
 package com.revature.p2.services;
 
+import com.revature.p2.exceptions.BadRequestException;
+import com.revature.p2.exceptions.ResourceNotFoundException;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.UserRepo;
+import com.revature.p2.web.dtos.Creds;
+import com.revature.p2.web.dtos.Principal;
 import com.revature.p2.web.dtos.UserDTO;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,5 +54,63 @@ public class UserServiceTest {
         List<UserDTO> users = sut.getAllUsers();
 
         assertEquals(users.size(), 5);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void getALlUsersException() {
+        List<User> test = new ArrayList<>();
+        when(mockRepo.findAll()).thenThrow();
+
+        sut.getAllUsers();
+    }
+
+    @Test
+    public void getByIdTest() {
+        when(mockRepo.findById(1)).thenReturn(mockUsers.get(1));
+
+        UserDTO user = sut.getUserById(1);
+
+        assert(user.equals(new UserDTO(mockUsers.get(1))));
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void getByIdException1() {
+        List<User> test = new ArrayList<>();
+        when(mockRepo.findById(1)).thenReturn(null);
+
+        sut.getUserById(1);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void getByIdException2() {
+        List<User> test = new ArrayList<>();
+        when(mockRepo.findById(1)).thenReturn(mockUsers.get(1));
+
+        sut.getUserById(0);
+    }
+
+    @Test
+    public void findUserByCredsTest() {
+
+        when(mockRepo.findUserByCreds("test1un", "test1pw")).thenReturn(mockUsers.get(1));
+
+        Principal user = sut.authenticate(new Creds("test1un", "test1pw"));
+
+        assert(user.equals(new Principal(mockUsers.get(1))));
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void findUserByCredsException1() {
+        when(mockRepo.findUserByCreds("test1un", "test1pw")).thenReturn(mockUsers.get(1));
+
+        Principal user = sut.authenticate(new Creds("", "test1pw"));
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void findUserByCredsException2() {
+        when(mockRepo.findUserByCreds("test1un", "test1pw")).thenReturn(mockUsers.get(1));
+
+        Principal user = sut.authenticate(new Creds("test1un", ""));
+
     }
 }
