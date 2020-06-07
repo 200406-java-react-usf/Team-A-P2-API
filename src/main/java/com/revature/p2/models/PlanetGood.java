@@ -60,19 +60,10 @@ public class PlanetGood implements Serializable {
         return priceMod;
     }
 
-    public PlanetGood setQuantity(float priceMod) {
+    public PlanetGood setPriceMod(float priceMod) {
         this.priceMod = priceMod;
         return this;
     }
-
-//    public Set<Good> getGoods() {
-//        return goods;
-//    }
-//
-//    public PlanetGood setGoods(Set<Good> goods) {
-//        this.goods = goods;
-//        return this;
-//    }
 
     @Override
     public boolean equals(Object o) {

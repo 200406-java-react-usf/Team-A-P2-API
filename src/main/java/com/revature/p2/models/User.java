@@ -3,6 +3,7 @@ package com.revature.p2.models;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "users", uniqueConstraints = {
@@ -35,16 +36,12 @@ public class User implements Serializable {
     @Column(name = "location", nullable = false)
     private int location;
 
-    @JoinColumn(name = "user_id")
-    @OneToOne(cascade = CascadeType.ALL)
-    private Cargo cargo;
-
-//    @JoinColumn
-//    @ManyToOne(cascade={
-//            CascadeType.REMOVE, CascadeType.MERGE,
-//            CascadeType.PERSIST, CascadeType.DETACH
-//    })
-//    private Planet planet;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "cargo",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "good_id")})
+    private Set<Good> goods;
 
 
     public User() {
@@ -56,10 +53,19 @@ public class User implements Serializable {
         this.cargoSpace = cargoSpace;
         this.currency = currency;
         this.location = location;
-        this.role = UserRole.USER;
     }
 
-    public User(int id, String username, String password, int cargoSpace, double currency, int location, UserRole role) {
+    public User(String username, String password, int cargoSpace, double currency, int location, Set<Good> goods) {
+        this.username = username;
+        this.password = password;
+        this.cargoSpace = cargoSpace;
+        this.currency = currency;
+        this.location = location;
+        this.role = UserRole.USER;
+        this.goods = goods;
+    }
+
+    public User(int id, String username, String password, int cargoSpace, double currency, int location, UserRole role, Set<Good> goods) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -67,6 +73,7 @@ public class User implements Serializable {
         this.currency = currency;
         this.location = location;
         this.role = UserRole.USER;
+        this.goods = goods;
     }
 
     public int getId() {
@@ -132,14 +139,14 @@ public class User implements Serializable {
         return this;
     }
 
-//    public Planet getPlanet() {
-//        return planet;
-//    }
-//
-//    public User setPlanet(Planet planet) {
-//        this.planet = planet;
-//        return this;
-//    }
+    public Set<Good> getGoods() {
+        return goods;
+    }
+
+    public User setGoods(Set<Good> goods) {
+        this.goods = goods;
+        return this;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -152,14 +159,15 @@ public class User implements Serializable {
                 location == user.location &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
-                role == user.role;
-//                &&
+                role == user.role &&
+                Objects.equals(goods, user.goods);
+//        &&
 //                Objects.equals(planet, user.planet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, cargoSpace, currency, location);
+        return Objects.hash(id, username, password, role, cargoSpace, currency, location, goods);
     }
 
     @Override
@@ -172,7 +180,7 @@ public class User implements Serializable {
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", location=" + location +
-//                ", planet=" + planet +
+                ", goods=" + goods +
                 '}';
     }
 }

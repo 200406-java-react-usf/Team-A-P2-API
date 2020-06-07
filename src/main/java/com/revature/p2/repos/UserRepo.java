@@ -72,7 +72,8 @@ public class UserRepo implements CrudRepo<User> {
     public boolean deleteById(int id) {
 
         Session session = sessionFactory.getCurrentSession();
-        session.delete(id);
+        User userToBeDeleted = session.find(User.class, id);
+        session.delete(userToBeDeleted);
         return true;
     }
 }

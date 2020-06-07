@@ -2,11 +2,8 @@ package com.revature.p2.services;
 
 import com.revature.p2.exceptions.BadRequestException;
 import com.revature.p2.exceptions.ResourceNotFoundException;
-import com.revature.p2.models.Good;
 import com.revature.p2.models.Planet;
-import com.revature.p2.models.User;
 import com.revature.p2.repos.PlanetRepo;
-import com.revature.p2.web.dtos.PlanetDTO;
 import com.revature.p2.web.dtos.PlanetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

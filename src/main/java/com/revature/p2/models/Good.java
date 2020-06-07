@@ -2,14 +2,11 @@ package com.revature.p2.models;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity(name = "Good")
 @Table(name = "goods", uniqueConstraints = {
         @UniqueConstraint(columnNames = "good_id")
 })
-
-
 public class Good {
 
     @Id
@@ -26,34 +23,21 @@ public class Good {
     @Column(name = "good_base_price", nullable = false)
     private int price;
 
-    @JoinColumn
-    @ManyToOne
-    private Cargo cargo;
-
-//    @OneToMany(mappedBy = "cargo")
-//    private Set<Good> goods;
-
-//    @ManyToMany(mappedBy = "goods")
-//    private Set<Planet> planets;
-
-
     public Good() {
         super();
     }
 
-    public Good(String name, String description, int price, Cargo cargo) {
+    public Good(String name, String description, int price) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.cargo = cargo;
     }
 
-    public Good(int id, String name, String description, int price, Cargo cargo) {
+    public Good(int id, String name, String description, int price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.cargo = cargo;
     }
 
     public int getId() {
@@ -88,14 +72,6 @@ public class Good {
         this.price = price;
     }
 
-    public Cargo getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(Cargo cargo) {
-        this.cargo = cargo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,13 +80,12 @@ public class Good {
         return id == good.id &&
                 price == good.price &&
                 Objects.equals(name, good.name) &&
-                Objects.equals(description, good.description) &&
-                Objects.equals(cargo, good.cargo);
+                Objects.equals(description, good.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, price, cargo);
+        return Objects.hash(id, name, description, price);
     }
 
     @Override
@@ -120,7 +95,6 @@ public class Good {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", cargo=" + cargo +
                 '}';
     }
 }

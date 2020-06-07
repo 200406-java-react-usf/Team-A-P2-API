@@ -1,7 +1,6 @@
 package com.revature.p2.repos;
 
 import com.revature.p2.models.Cargo;
-import com.revature.p2.models.Good;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

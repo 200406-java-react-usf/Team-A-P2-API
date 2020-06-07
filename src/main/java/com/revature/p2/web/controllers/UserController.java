@@ -45,4 +45,15 @@ public class UserController {
 
         return userService.register(newUser);
     }
+
+    @DeleteMapping
+    @Secured(allowedRoles = {"Admin"})
+    public boolean deleteUser(@RequestBody User userToBeDeleted) {
+        return userService.delete(userToBeDeleted.getId());
+    }
+
+    @PatchMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
+    public boolean updateUser(@RequestBody User updatedUser) {
+        return userService.update(updatedUser);
+    }
 }
