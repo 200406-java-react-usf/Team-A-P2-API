@@ -61,7 +61,7 @@ public class PlanetGood implements Serializable {
         return priceMod;
     }
 
-    public PlanetGood setQuantity(float priceMod) {
+    public PlanetGood setPriceMod(float priceMod) {
         this.priceMod = priceMod;
         return this;
     }
