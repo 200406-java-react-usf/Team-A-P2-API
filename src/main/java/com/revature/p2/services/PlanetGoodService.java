@@ -79,19 +79,23 @@ public class PlanetGoodService {
 
     /**
      * Used to update the info for a cargo
-     * @param updatedCargo the updated info for the cargo
+     * @param updatedGood the updated info for the cargo
      * If the cargo does not exist it invokes the save method instead
      * @return the updated cargo
      */
     @Transactional
-    public boolean updatePlanetGood(PlanetGood updatedGood) {
+    public PlanetGood updatePlanetGood(PlanetGood updatedGood) {
 
-        planetGoodRepo.update(updatedGood);
-        return true;
+        if (!checkAvailability(updatedGood)){
+            planetGoodRepo.save(updatedGood);
+        }else if (checkAvailability(updatedGood)){
+            planetGoodRepo.update(updatedGood);
+        }
+        return updatedGood;
     }
 
-    private boolean checkAvailibility(Cargo checkedCargo) {
-        return planetGoodRepo.findByUserAndGoodId(checkedCargo) == null;
+    private boolean checkAvailability(PlanetGood updatedGood) {
+        return planetGoodRepo.findByPlanetAndGoodId(updatedGood) == null;
     }
 
 }
