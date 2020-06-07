@@ -6,9 +6,11 @@ import com.revature.p2.web.dtos.Principal;
 import com.revature.p2.web.security.JwtConfig;
 import com.revature.p2.web.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -20,6 +22,12 @@ public class AuthController {
     @Autowired
     public AuthController(UserService service) {
         this.userService = service;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public Principal unauthenticate(){
+        return null;
     }
 
     @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
