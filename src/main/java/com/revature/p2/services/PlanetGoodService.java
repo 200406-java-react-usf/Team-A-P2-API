@@ -5,11 +5,9 @@ import com.revature.p2.exceptions.ResourceNotFoundException;
 import com.revature.p2.exceptions.ResourcePersistenceException;
 import com.revature.p2.models.Cargo;
 import com.revature.p2.models.PlanetGood;
-import com.revature.p2.models.UserRole;
-import com.revature.p2.repos.CargoRepo;
 import com.revature.p2.repos.PlanetGoodRepo;
 import com.revature.p2.web.dtos.CargoDTO;
-import com.revature.p2.web.dtos.UserDTO;
+import com.revature.p2.web.dtos.PlanetGoodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,35 +45,35 @@ public class PlanetGoodService {
      * @return the cargo with the provided ID
      */
     @Transactional(readOnly = true)
-    public CargoDTO getCargoById(int id) {
+    public PlanetGoodDTO getGoodById(int id) {
 
         if (id <= 0) {
             throw new BadRequestException();
         }
 
-        Cargo retrievedCargo = cargoRepo.findById(id);
+        PlanetGood retrievedGood = planetGoodRepo.findById(id);
 
-        if (retrievedCargo == null) {
+        if (retrievedGood == null) {
             throw new ResourceNotFoundException();
         }
 
-        return new CargoDTO(retrievedCargo);
+        return new PlanetGoodDTO(retrievedGood);
     }
 
     /**
      * Used to register a new cargo
-     * @param newCargo the new cargo to be registered
+     * @param newGood the new cargo to be registered
      * @return the newly registered cargo
      */
     @Transactional
-    public CargoDTO register(Cargo newCargo) {
+    public PlanetGoodDTO register(PlanetGood newGood) {
 
-        if (newCargo == null || newCargo.getUserId() == 0 || newCargo.getId() == 0 ||
-                newCargo.getQuantity() == 0 || newCargo.getCostOfGoods() == 0 ){
+        if (newGood == null || newGood.getId() <= 0 || newGood.getPlanetId() <= 0||
+                newGood.getPriceMod()  <= 0){
             throw new BadRequestException("Oh no! You provided bad data.");
         }
 
-        return new CargoDTO(cargoRepo.save(newCargo));
+        return new PlanetGoodDTO(planetGoodRepo.save(newGood));
 
     }
 
@@ -86,18 +84,14 @@ public class PlanetGoodService {
      * @return the updated cargo
      */
     @Transactional
-    public Cargo updateCargo(Cargo updatedCargo) {
+    public boolean updatePlanetGood(PlanetGood updatedGood) {
 
-        if (!checkIfInCargo(updatedCargo)){
-            cargoRepo.save(updatedCargo);
-        }else if (checkIfInCargo(updatedCargo)){
-            cargoRepo.update(updatedCargo);
-        }
-        return updatedCargo;
+        planetGoodRepo.update(updatedGood);
+        return true;
     }
 
-    private boolean checkIfInCargo(Cargo checkedCargo) {
-        return cargoRepo.findByUserAndGoodId(checkedCargo) == null;
+    private boolean checkAvailibility(Cargo checkedCargo) {
+        return planetGoodRepo.findByUserAndGoodId(checkedCargo) == null;
     }
 
 }

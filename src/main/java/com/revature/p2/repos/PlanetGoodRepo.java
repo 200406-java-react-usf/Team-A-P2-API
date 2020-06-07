@@ -45,6 +45,15 @@ public class PlanetGoodRepo implements CrudRepo<PlanetGood> {
         
     }
 
+    public PlanetGood findByPlanetAndGoodId(PlanetGood checkedGood) {
+
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from Planet_Goods p where p.planet_id = :planetId and p.good_id = :goodId", PlanetGood.class)
+                .setParameter("planetId", checkedGood.getPlanetId())
+                .setParameter("goodId", checkedGood.getId())
+                .uniqueResult();
+    }
+
     @Override
     public PlanetGood save(PlanetGood newObj) {
 
