@@ -36,6 +36,11 @@ public class Planet {
         super();
     }
 
+    public Planet(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Planet(String name, Set<User> users, Set<Good> goods) {
         this.name = name;
         this.users = users;
