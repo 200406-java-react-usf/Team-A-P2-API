@@ -66,7 +66,7 @@ public class CargoService {
      * @return the newly registered cargo
      */
     @Transactional
-    public CargoDTO save(Cargo newCargo) {
+    public CargoDTO register(Cargo newCargo) {
 
         if (newCargo == null || newCargo.getUserId() == 0 || newCargo.getId() == 0 ||
                 newCargo.getQuantity() == 0 || newCargo.getCostOfGoods() == 0 ){
@@ -80,16 +80,22 @@ public class CargoService {
     /**
      * Used to update the info for a cargo
      * @param updatedCargo the updated info for the cargo
+     * If the cargo does not exist it invokes the save method instead
      * @return the updated cargo
      */
     @Transactional
     public Cargo updateCargo(Cargo updatedCargo) {
-        cargoRepo.update(updatedCargo);
+
+        if (!checkIfInCargo(updatedCargo)){
+            cargoRepo.save(updatedCargo);
+        }else if (checkIfInCargo(updatedCargo)){
+            cargoRepo.update(updatedCargo);
+        }
         return updatedCargo;
     }
 
-    private boolean checkIfInCargo(int id) {
-        return cargoRepo.findById(id) == null;
+    private boolean checkIfInCargo(Cargo checkedCargo) {
+        return cargoRepo.findByUserAndGoodId(checkedCargo) == null;
     }
 
 }
