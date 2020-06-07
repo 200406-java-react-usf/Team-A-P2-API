@@ -89,8 +89,6 @@ public class UserService {
             retrievedUser = userRepo.findUserByCreds(creds.getUsername(), creds.getPassword());
         } catch (NoResultException e) {
             throw new AuthenticationException("Authentication failed!", e);
-        } catch (IllegalArgumentException e) {
-            throw new InternalServerErrorException("Illegal Argument Exception was thrown.");
         }
 
         return new Principal(retrievedUser);
