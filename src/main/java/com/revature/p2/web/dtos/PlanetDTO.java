@@ -17,7 +17,7 @@ public class PlanetDTO {
     public PlanetDTO(Planet planet) {
         this.id = planet.getId();
         this.name = planet.getName();
-        this.priceModifier = planet.getPriceModifier();
+//        this.priceModifier = planet.getPriceModifier();
     }
 
     public int getId() {

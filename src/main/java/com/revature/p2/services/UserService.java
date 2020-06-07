@@ -124,6 +124,33 @@ public class UserService {
     }
 
     /**
+     * Used to update a users username and/or password (only things that are updatable as of now)
+     * @param updatedUser the username & password as a User object
+     * @return true if update was complete
+     */
+    @Transactional
+    public boolean update(User updatedUser) {
+        if (updatedUser == null || updatedUser.getUsername() == null || updatedUser.getPassword() == null ||
+                updatedUser.getUsername().trim().equals("") || updatedUser.getPassword().trim().equals("")) {
+            throw new BadRequestException("Oh no! You did not provide a valid username or password.");
+        }
+
+        // will be true if username is available, false if already taken
+        boolean isUsernameAvailable = checkUsername(updatedUser.getUsername());
+
+        if (!isUsernameAvailable) {
+            throw new ResourcePersistenceException("That username is already taken.");
+        }
+
+        try {
+            userRepo.update(updatedUser);
+        } catch (Exception e) {
+            throw new InternalServerErrorException();
+        }
+        return true;
+    }
+
+    /**
      * Will delete a user from the database
      * Admin access required for this action (for now)
      * @param userId the id of the user you want to delete
