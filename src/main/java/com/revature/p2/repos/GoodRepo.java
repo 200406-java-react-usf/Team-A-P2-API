@@ -1,5 +1,6 @@
 package com.revature.p2.repos;
 
+import com.revature.p2.models.Cargo;
 import com.revature.p2.models.Good;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,6 +33,14 @@ public class GoodRepo implements CrudRepo<Good> {
 
         Session session = sessionFactory.getCurrentSession();
         return session.get(Good.class, id);
+    }
+
+    public Good findByGoodName(Good checkedGood) {
+
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from Good g where g.good_name = :good", Good.class)
+                .setParameter("good", checkedGood.getName())
+                .uniqueResult();
     }
 
     @Override

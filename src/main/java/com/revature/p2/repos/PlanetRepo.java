@@ -1,5 +1,6 @@
 package com.revature.p2.repos;
 
+import com.revature.p2.models.Good;
 import com.revature.p2.models.Planet;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,6 +33,14 @@ public class PlanetRepo implements CrudRepo<Planet> {
 
         Session session = sessionFactory.getCurrentSession();
         return session.get(Planet.class, id);
+    }
+
+    public Planet findByPlanetName(Planet checkedPlanet) {
+
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from Planet p where p.planet_name = :name", Planet.class)
+                .setParameter("name", checkedPlanet.getName())
+                .uniqueResult();
     }
 
     @Override

@@ -3,9 +3,13 @@ package com.revature.p2.services;
 
 import com.revature.p2.exceptions.BadRequestException;
 import com.revature.p2.exceptions.ResourceNotFoundException;
+import com.revature.p2.exceptions.ResourcePersistenceException;
+import com.revature.p2.models.Cargo;
 import com.revature.p2.models.Good;
+import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.GoodRepo;
 import com.revature.p2.web.dtos.GoodDTO;
+import com.revature.p2.web.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,10 +69,27 @@ public class GoodService {
     @Transactional
     public GoodDTO register(Good newGood) {
 
-        //TODO: Validation
+        if (newGood == null || newGood.getId() == 0 || newGood.getPrice() == 0 ||
+                newGood.getDescription().trim().equals("") || newGood.getName().trim().equals("")) {
+            throw new BadRequestException("Oh no! You provided bad data.");
+        }
+
+        if (!checkGoodAvailability(newGood)) {
+            throw new ResourcePersistenceException("That good is already in the system.");
+        }
 
         return new GoodDTO(goodRepo.save(newGood));
+    }
 
+    private boolean checkGoodAvailability(Good checkedGood) {
+        return goodRepo.findByGoodName(checkedGood) == null;
+    }
+
+    @Transactional
+    public Good updateGood(Good updatedGood) {
+
+        goodRepo.update(updatedGood);
+        return updatedGood;
     }
 
 }

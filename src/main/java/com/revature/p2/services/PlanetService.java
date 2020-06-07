@@ -2,10 +2,12 @@ package com.revature.p2.services;
 
 import com.revature.p2.exceptions.BadRequestException;
 import com.revature.p2.exceptions.ResourceNotFoundException;
+import com.revature.p2.exceptions.ResourcePersistenceException;
 import com.revature.p2.models.Good;
 import com.revature.p2.models.Planet;
 import com.revature.p2.models.User;
 import com.revature.p2.repos.PlanetRepo;
+import com.revature.p2.web.dtos.GoodDTO;
 import com.revature.p2.web.dtos.PlanetDTO;
 import com.revature.p2.web.dtos.PlanetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +70,26 @@ public class PlanetService {
     @Transactional
     public PlanetDTO register(Planet newPlanet) {
 
-        //TODO: Validation
+        if (newPlanet == null || newPlanet.getId() == 0 || newPlanet.getName().trim().equals("")) {
+            throw new BadRequestException("Oh no! You provided bad data.");
+        }
+
+        if (!checkPlanetAvailability(newPlanet)) {
+            throw new ResourcePersistenceException("That planet is already in the system.");
+        }
 
         return new PlanetDTO(planetRepo.save(newPlanet));
     }
+
+    private boolean checkPlanetAvailability(Planet checkedPlanet) {
+        return planetRepo.findByPlanetName(checkedPlanet) == null;
+    }
+
+    @Transactional
+    public Planet updatePlanet(Planet updatedPlanet) {
+
+        planetRepo.update(updatedPlanet);
+        return updatedPlanet;
+    }
+
 }

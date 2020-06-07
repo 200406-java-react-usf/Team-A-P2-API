@@ -37,15 +37,6 @@ public class CargoRepo implements CrudRepo<Cargo> {
         return session.get(Cargo.class, id);
     }
 
-    /*Second findById method to look for an item and return null if not found.*/
-    public Cargo findById2(int id) {
-
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Cargo c where c.good_id = :id", Cargo.class)
-                .setParameter("id", id)
-                .uniqueResult();
-    }
-
     public List<Cargo> findByUserId(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Cargo where user_id = :id", Cargo.class).getResultList();
