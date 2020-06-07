@@ -6,18 +6,15 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "Planet_Goods")
-@Table(name = "planet_goods", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "good_id"),
-        @UniqueConstraint(columnNames = "planet_id")
-})
+@Table(name = "planet_goods")
 public class PlanetGood implements Serializable {
 
     @Id
-    @Column(name = "good_id", unique = true, nullable = false)
+    @Column(name = "good_id", nullable = false)
     private int id;
 
     @Id
-    @Column(name = "planet_id", unique = true, nullable = false)
+    @Column(name = "planet_id", nullable = false)
     private int planetId;
 
     @Column(name = "price_modifier")

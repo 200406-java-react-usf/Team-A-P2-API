@@ -40,6 +40,18 @@ public class CargoService {
     }
 
     /**
+     * Gets all of the cargo in the database for a given user id
+     * @return a list of their cargo in the database
+     */
+    @Transactional(readOnly = true)
+    public List<CargoDTO> getAllUserCargo(int id) {
+        return cargoRepo.findByUserId(id)
+                .stream()
+                .map(CargoDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Gets a cargo by its ID
      * @param id the id of the cargo you want to retrieve
      * @return the cargo with the provided ID
