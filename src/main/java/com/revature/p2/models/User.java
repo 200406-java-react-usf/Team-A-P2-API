@@ -47,6 +47,14 @@ public class User implements Serializable {
     public User() {
         super();}
 
+    public User(String username, String password, int cargoSpace, double currency, int location) {
+        this.username = username;
+        this.password = password;
+        this.cargoSpace = cargoSpace;
+        this.currency = currency;
+        this.location = location;
+    }
+
     public User(String username, String password, int cargoSpace, double currency, int location, Set<Good> goods) {
         this.username = username;
         this.password = password;
