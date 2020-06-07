@@ -2,9 +2,12 @@ package com.revature.p2.services;
 
 import com.revature.p2.exceptions.BadRequestException;
 import com.revature.p2.exceptions.ResourceNotFoundException;
+import com.revature.p2.exceptions.ResourcePersistenceException;
 import com.revature.p2.models.Cargo;
+import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.CargoRepo;
 import com.revature.p2.web.dtos.CargoDTO;
+import com.revature.p2.web.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,9 +66,12 @@ public class CargoService {
      * @return the newly registered cargo
      */
     @Transactional
-    public CargoDTO register(Cargo newCargo) {
+    public CargoDTO save(Cargo newCargo) {
 
-        //TODO: Validation
+        if (newCargo == null || newCargo.getUserId() == 0 || newCargo.getId() == 0 ||
+                newCargo.getQuantity() == 0 || newCargo.getCostOfGoods() == 0 ){
+            throw new BadRequestException("Oh no! You provided bad data.");
+        }
 
         return new CargoDTO(cargoRepo.save(newCargo));
 

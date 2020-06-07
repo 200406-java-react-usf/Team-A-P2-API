@@ -30,15 +30,15 @@ public class Cargo implements Serializable {
         super();
     }
 
-    public Cargo(int userId, int quantity, int costOfGoods) {
-        this.userId = userId;
+    public Cargo(int goodId, int quantity, int costOfGoods) {
+        this.id = goodId;
         this.quantity = quantity;
         this.costOfGoods = costOfGoods;
     }
 
     public Cargo(int id, int userId, int quantity, int costOfGoods) {
-        this.id = id;
         this.userId = userId;
+        this.id = id;
         this.quantity = quantity;
         this.costOfGoods = costOfGoods;
     }

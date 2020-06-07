@@ -113,9 +113,13 @@ public class UserService {
             throw new ResourcePersistenceException("That username is already taken.");
         }
 
+        //Sets new user's default data.
+        newUser.setCargoSpace(10);
+        newUser.setCurrency(5000);
+        newUser.setLocationId(1);
         newUser.setRole(UserRole.USER);
-        return new UserDTO(userRepo.save(newUser));
 
+        return new UserDTO(userRepo.save(newUser));
     }
 
     /**

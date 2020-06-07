@@ -2,6 +2,7 @@ package com.revature.p2.repos;
 
 import com.revature.p2.models.Cargo;
 import com.revature.p2.models.Good;
+import com.revature.p2.models.PlanetGood;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,7 @@ public class CargoRepo implements CrudRepo<Cargo> {
 
     public List<Cargo> findByUserId(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Cargo where user_id = :id").getResultList();
-    }
-
-    public List<Cargo> findByPlanetId(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Cargo where planet_id = :id").getResultList();
+        return session.createQuery("from Cargo where user_id = :id", Cargo.class).getResultList();
     }
 
     @Override
@@ -53,17 +49,22 @@ public class CargoRepo implements CrudRepo<Cargo> {
         return newObj;
     }
     @Override
-    public boolean update(Cargo updatedObj) {
+    public boolean update(Cargo updatedCargo) {
 
-        //WIP
-        return false;
+        Session session = sessionFactory.getCurrentSession();
+        Cargo updateTarget = session.get(Cargo.class, (updatedCargo.getUserId() & updatedCargo.getId()));
+        updateTarget.setQuantity(updatedCargo.getQuantity());
+        updateTarget.setCostOfGoods(updatedCargo.getCostOfGoods());
+        return true;
     }
 
     @Override
     public boolean deleteById(int id) {
 
-        //WIP
-        return false;
+        Session session = sessionFactory.getCurrentSession();
+        Cargo deleteTarget = session.get(Cargo.class, id);
+        session.delete(deleteTarget);
+        return true;
     }
 }
 
