@@ -67,15 +67,6 @@ public class Planet {
         return this;
     }
 
-//    public float getPriceModifier() {
-//        return priceModifier;
-//    }
-//
-//    public Planet setPriceModifier(float priceModifier) {
-//        this.priceModifier = priceModifier;
-//        return this;
-//    }
-
     public Set<User> getUsers() {
         return users;
     }
@@ -100,7 +91,6 @@ public class Planet {
         if (o == null || getClass() != o.getClass()) return false;
         Planet planet = (Planet) o;
         return id == planet.id &&
-//                Float.compare(planet.priceModifier, priceModifier) == 0 &&
                 Objects.equals(name, planet.name) &&
                 Objects.equals(users, planet.users) &&
                 Objects.equals(goods, planet.goods);
@@ -116,7 +106,6 @@ public class Planet {
         return "Planet{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-//                ", priceModifier=" + priceModifier +
                 ", users=" + users +
                 ", goods=" + goods +
                 '}';

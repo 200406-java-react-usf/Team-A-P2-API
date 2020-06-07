@@ -66,15 +66,6 @@ public class PlanetGood implements Serializable {
         return this;
     }
 
-//    public Set<Good> getGoods() {
-//        return goods;
-//    }
-//
-//    public PlanetGood setGoods(Set<Good> goods) {
-//        this.goods = goods;
-//        return this;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -8,8 +8,6 @@ import java.util.Set;
 @Table(name = "goods", uniqueConstraints = {
         @UniqueConstraint(columnNames = "good_id")
 })
-
-
 public class Good {
 
     @Id
@@ -26,13 +24,6 @@ public class Good {
     @Column(name = "good_base_price", nullable = false)
     private int price;
 
-//    @ManyToMany(mappedBy = "goods")
-//    private Set<Cargo> cargos;
-//
-//    @ManyToMany(mappedBy = "goods")
-//    private Set<Planet> planets;
-
-
     public Good() {
         super();
     }
@@ -41,7 +32,6 @@ public class Good {
         this.name = name;
         this.description = description;
         this.price = price;
-//        this.cargos = cargos;
     }
 
     public Good(int id, String name, String description, int price) {
@@ -49,7 +39,6 @@ public class Good {
         this.name = name;
         this.description = description;
         this.price = price;
-//        this.cargos = cargos;
     }
 
     public int getId() {
@@ -88,15 +77,6 @@ public class Good {
         return this;
     }
 
-//    public Set<Cargo> getCargos() {
-//        return cargos;
-//    }
-//
-//    public Good setCargos(Set<Cargo> cargos) {
-//        this.cargos = cargos;
-//        return this;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,18 +86,13 @@ public class Good {
                 price == good.price &&
                 Objects.equals(name, good.name) &&
                 Objects.equals(description, good.description);
-//        &&
-//                Objects.equals(cargos, good.cargos);
     }
 
-
-//    , cargos
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, price);
     }
 
-    //                ", cargos=" + cargos +
     @Override
     public String toString() {
         return "Good{" +
@@ -125,7 +100,6 @@ public class Good {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-
                 '}';
     }
 }
