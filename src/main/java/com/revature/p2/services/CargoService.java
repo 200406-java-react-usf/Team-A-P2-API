@@ -88,4 +88,8 @@ public class CargoService {
         return updatedCargo;
     }
 
+    private boolean checkIfInCargo(int id) {
+        return cargoRepo.findById(id) == null;
+    }
+
 }

@@ -1,9 +1,7 @@
 package com.revature.p2.services;
 
-import com.revature.p2.exceptions.AuthenticationException;
-import com.revature.p2.exceptions.BadRequestException;
-import com.revature.p2.exceptions.ResourcePersistenceException;
-import com.revature.p2.exceptions.ResourceNotFoundException;
+import com.revature.p2.exceptions.*;
+import com.revature.p2.models.Planet;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.UserRepo;
@@ -11,6 +9,7 @@ import com.revature.p2.web.dtos.Creds;
 import com.revature.p2.web.dtos.Principal;
 import com.revature.p2.web.dtos.UserDTO;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,12 +35,16 @@ public class UserService {
      * @return a List of all users that exist in the database
      */
     @Transactional(readOnly=true)
-
     public List<UserDTO> getAllUsers() {
-        return userRepo.findAll()
-                        .stream()
-                        .map(UserDTO::new)
-                        .collect(Collectors.toList());
+        try {
+            return userRepo.findAll()
+                    .stream()
+                    .map(UserDTO::new)
+                    .collect(Collectors.toList());
+        } catch(Exception e) {
+            throw new ResourceNotFoundException();
+        }
+
     }
 
     /**
@@ -97,7 +100,6 @@ public class UserService {
      * @param newUser user object to be registered (username & password req)
      * @return the newly registered user
      */
-
     @Transactional
     public UserDTO register(User newUser) {
 
@@ -120,6 +122,49 @@ public class UserService {
         newUser.setRole(UserRole.USER);
 
         return new UserDTO(userRepo.save(newUser));
+    }
+
+    /**
+     * Used to update a users username and/or password (only things that are updatable as of now)
+     * @param updatedUser the username & password as a User object
+     * @return true if update was complete
+     */
+    @Transactional
+    public boolean update(User updatedUser) {
+        if (updatedUser == null || updatedUser.getUsername() == null || updatedUser.getPassword() == null ||
+                updatedUser.getUsername().trim().equals("") || updatedUser.getPassword().trim().equals("")) {
+            throw new BadRequestException("Oh no! You did not provide a valid username or password.");
+        }
+
+        // will be true if username is available, false if already taken
+        boolean isUsernameAvailable = checkUsername(updatedUser.getUsername());
+
+        if (!isUsernameAvailable) {
+            throw new ResourcePersistenceException("That username is already taken.");
+        }
+
+        try {
+            userRepo.update(updatedUser);
+        } catch (Exception e) {
+            throw new InternalServerErrorException();
+        }
+        return true;
+    }
+
+    /**
+     * Will delete a user from the database
+     * Admin access required for this action (for now)
+     * @param userId the id of the user you want to delete
+     * @return true if user was deleted, false if user was not
+     */
+    @Transactional
+    public boolean delete(@NotNull int userId) {
+        try {
+            return userRepo.deleteById(userId);
+        } catch (Exception e) {
+            throw new InternalServerErrorException();
+        }
+
     }
 
     /**
