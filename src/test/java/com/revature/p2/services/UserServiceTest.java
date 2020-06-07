@@ -1,7 +1,6 @@
 package com.revature.p2.services;
 
-import com.revature.p2.exceptions.BadRequestException;
-import com.revature.p2.exceptions.ResourceNotFoundException;
+import com.revature.p2.exceptions.*;
 import com.revature.p2.models.User;
 import com.revature.p2.models.UserRole;
 import com.revature.p2.repos.UserRepo;
@@ -113,4 +112,72 @@ public class UserServiceTest {
         Principal user = sut.authenticate(new Creds("test1un", ""));
 
     }
+
+//    @Test(expected = AuthenticationException.class)
+//    public void findUserByCredsException3() {
+//        when(mockRepo.findUserByCreds("test1un", "test1pw")).thenReturn(mockUsers.get(1));
+//
+//        Principal user = sut.authenticate(new Creds("wrong", "wrong"));
+//
+//    }
+
+    @Test
+    public void registerTest() {
+        when(mockRepo.save(mockUsers.get(1))).thenReturn(mockUsers.get(1));
+
+        UserDTO user = sut.register(mockUsers.get(1));
+
+        assertEquals(user, new UserDTO(mockUsers.get(1)));
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void registerException1() {
+        when(mockRepo.save(mockUsers.get(1))).thenReturn(mockUsers.get(1));
+
+        UserDTO user = sut.register(null);
+    }
+
+//    @Test(expected = ResourcePersistenceException.class)
+//    public void registerException2() {
+//        when(mockRepo.save(mockUsers.get(1))).thenReturn(mockUsers.get(1));
+//
+//        UserDTO user = sut.register(new User("test1un", "test1pw", 100, 1000.00, 1));
+//    }
+
+    @Test
+    public void updateTest() {
+        when(mockRepo.update(mockUsers.get(1))).thenReturn(true);
+
+        boolean updated = sut.update(mockUsers.get(1));
+
+        assertEquals(updated, true);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void updateException1() {
+        when(mockRepo.update(mockUsers.get(1))).thenReturn(false);
+
+        boolean updated = sut.update(null);
+    }
+
+    @Test
+    public void deleteTest() {
+        when(mockRepo.deleteById(1)).thenReturn(true);
+
+        boolean user = sut.delete(1);
+
+        assertEquals(user, true);
+    }
+
+    @Test(expected = InternalServerErrorException.class)
+    public void deleteException() {
+        when(mockRepo.deleteById(1)).thenThrow();
+
+        boolean user = sut.delete(1);
+
+        assert(user);
+    }
+
+
+
 }

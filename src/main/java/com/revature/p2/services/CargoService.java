@@ -77,9 +77,9 @@ public class CargoService {
      * @return the updated cargo
      */
     @Transactional
-    public Cargo updateCargo(Cargo updatedCargo) {
+    public boolean updateCargo(Cargo updatedCargo) {
         cargoRepo.update(updatedCargo);
-        return updatedCargo;
+        return true;
     }
 
 }
