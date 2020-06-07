@@ -26,75 +26,74 @@ public class Good {
     @Column(name = "good_base_price", nullable = false)
     private int price;
 
-    @ManyToMany(mappedBy = "goods")
-    private Set<Cargo> cargos;
+    @JoinColumn
+    @ManyToOne
+    private Cargo cargo;
 
-    @ManyToMany(mappedBy = "goods")
-    private Set<Planet> planets;
+//    @OneToMany(mappedBy = "cargo")
+//    private Set<Good> goods;
+
+//    @ManyToMany(mappedBy = "goods")
+//    private Set<Planet> planets;
 
 
     public Good() {
         super();
     }
 
-    public Good(String name, String description, int price, Set<Cargo> cargos) {
+    public Good(String name, String description, int price, Cargo cargo) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.cargos = cargos;
+        this.cargo = cargo;
     }
 
-    public Good(int id, String name, String description, int price, Set<Cargo> cargos) {
+    public Good(int id, String name, String description, int price, Cargo cargo) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.cargos = cargos;
+        this.cargo = cargo;
     }
 
     public int getId() {
         return id;
     }
 
-    public Good setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public Good setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public Good setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
-        return this;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public Good setPrice(int price) {
+    public void setPrice(int price) {
         this.price = price;
-        return this;
     }
 
-    public Set<Cargo> getCargos() {
-        return cargos;
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public Good setCargos(Set<Cargo> cargos) {
-        this.cargos = cargos;
-        return this;
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
 
     @Override
@@ -106,12 +105,12 @@ public class Good {
                 price == good.price &&
                 Objects.equals(name, good.name) &&
                 Objects.equals(description, good.description) &&
-                Objects.equals(cargos, good.cargos);
+                Objects.equals(cargo, good.cargo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, price, cargos);
+        return Objects.hash(id, name, description, price, cargo);
     }
 
     @Override
@@ -121,7 +120,7 @@ public class Good {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", cargos=" + cargos +
+                ", cargo=" + cargo +
                 '}';
     }
 }

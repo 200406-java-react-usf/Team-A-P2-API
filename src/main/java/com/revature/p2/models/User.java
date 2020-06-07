@@ -35,12 +35,16 @@ public class User implements Serializable {
     @Column(name = "location", nullable = false)
     private int location;
 
-    @JoinColumn
-    @ManyToOne(cascade={
-            CascadeType.REMOVE, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.DETACH
-    })
-    private Planet planet;
+    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cargo cargo;
+
+//    @JoinColumn
+//    @ManyToOne(cascade={
+//            CascadeType.REMOVE, CascadeType.MERGE,
+//            CascadeType.PERSIST, CascadeType.DETACH
+//    })
+//    private Planet planet;
 
 
     public User() {
@@ -128,14 +132,14 @@ public class User implements Serializable {
         return this;
     }
 
-    public Planet getPlanet() {
-        return planet;
-    }
-
-    public User setPlanet(Planet planet) {
-        this.planet = planet;
-        return this;
-    }
+//    public Planet getPlanet() {
+//        return planet;
+//    }
+//
+//    public User setPlanet(Planet planet) {
+//        this.planet = planet;
+//        return this;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -148,13 +152,14 @@ public class User implements Serializable {
                 location == user.location &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
-                role == user.role &&
-                Objects.equals(planet, user.planet);
+                role == user.role;
+//                &&
+//                Objects.equals(planet, user.planet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, cargoSpace, currency, location, planet);
+        return Objects.hash(id, username, password, role, cargoSpace, currency, location);
     }
 
     @Override
@@ -167,7 +172,7 @@ public class User implements Serializable {
                 ", cargoSpace=" + cargoSpace +
                 ", currency=" + currency +
                 ", location=" + location +
-                ", planet=" + planet +
+//                ", planet=" + planet +
                 '}';
     }
 }
