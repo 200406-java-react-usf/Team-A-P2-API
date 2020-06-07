@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -20,6 +21,11 @@ public class AuthController {
     @Autowired
     public AuthController(UserService service) {
         this.userService = service;
+    }
+
+    @GetMapping
+    public Principal unauthenticate(){
+        return null;
     }
 
     @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
