@@ -27,7 +27,6 @@ public class GoodController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
     public List<GoodDTO> getAllGoods() {
 
         return goodService.getAllGoods();
