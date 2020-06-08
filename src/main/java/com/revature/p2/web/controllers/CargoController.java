@@ -1,9 +1,11 @@
 package com.revature.p2.web.controllers;
 
 import com.revature.p2.models.Cargo;
+import com.revature.p2.models.PlanetGood;
 import com.revature.p2.services.CargoService;
 
 import com.revature.p2.web.dtos.CargoDTO;
+import com.revature.p2.web.dtos.PlanetGoodDTO;
 import com.revature.p2.web.security.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,4 +45,26 @@ public class CargoController {
 
         return cargoService.register(newCargo);
     }
+
+    @GetMapping(value="/user/{id}")
+    public List<CargoDTO> getCargoByUserId(@PathVariable int id) {
+        return cargoService.getCargoListByUserId(id);
+    }
+
+    @GetMapping(value="/planet/{id}")
+    public List<PlanetGoodDTO> getCargoListByPlanetId(@PathVariable int id) {
+        return cargoService.getCargoListByPlanetId(id);
+    }
+
+    @GetMapping(value="/user/{uId}/good/{gId}")
+    public CargoDTO getCargoByUserIdAndGoodId(@PathVariable int uId, @PathVariable int gId) {
+        return cargoService.getCargoByUserIdAndGoodId(uId, gId);
+    }
+
+    @PutMapping(value="/{uId}/{gId}/{cost}/{quantity}")
+    public boolean updateCargo(@PathVariable int uId, @PathVariable int gId, @PathVariable int cost, @PathVariable int quantity) {
+        return cargoService.updateCargo(uId, gId, cost, quantity);
+    }
+
+
 }
