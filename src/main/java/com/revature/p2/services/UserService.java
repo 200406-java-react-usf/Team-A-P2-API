@@ -132,7 +132,7 @@ public class UserService {
     @Transactional
     public boolean update(User updatedUser) {
         if (updatedUser == null || updatedUser.getUsername() == null || updatedUser.getPassword() == null ||
-                updatedUser.getUsername().trim().equals("") || updatedUser.getPassword().trim().equals("")) {
+                updatedUser.getUsername().trim().equals("")) {
             throw new BadRequestException("Oh no! You did not provide a valid username or password.");
         }
 
