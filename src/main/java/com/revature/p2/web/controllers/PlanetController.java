@@ -27,7 +27,6 @@ public class PlanetController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
     public List<PlanetDTO> getAllPlanets() {
 
         return planetService.getAllPlanets();
@@ -41,6 +40,7 @@ public class PlanetController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @Secured(allowedRoles={"Admin"})
     public PlanetDTO registerNewPlanet(@RequestBody Planet newPlanet) {
 
         return planetService.register(newPlanet);

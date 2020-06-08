@@ -26,7 +26,6 @@ public class CargoController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
     public List<CargoDTO> getAllCargos() {
 
         return cargoService.getAllCargos();

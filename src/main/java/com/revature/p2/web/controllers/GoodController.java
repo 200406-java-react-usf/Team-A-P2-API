@@ -27,7 +27,6 @@ public class GoodController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
     public List<GoodDTO> getAllGoods() {
 
         return goodService.getAllGoods();
@@ -41,6 +40,7 @@ public class GoodController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @Secured(allowedRoles={"Admin"})
     public GoodDTO registerNewGood(@RequestBody Good newGood) {
 
         return goodService.register(newGood);

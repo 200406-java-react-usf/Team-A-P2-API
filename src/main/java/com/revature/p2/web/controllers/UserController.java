@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
+//    @Secured(allowedRoles={"Admin"})
     public List<UserDTO> getAllUsers() {
 
         return userService.getAllUsers();
@@ -47,12 +47,12 @@ public class UserController {
     }
 
     @DeleteMapping
-    @Secured(allowedRoles = {"Admin"})
+//    @Secured(allowedRoles = {"Admin"})
     public boolean deleteUser(@RequestBody User userToBeDeleted) {
         return userService.delete(userToBeDeleted.getId());
     }
 
-    @PatchMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
     public boolean updateUser(@RequestBody User updatedUser) {
         return userService.update(updatedUser);
     }
