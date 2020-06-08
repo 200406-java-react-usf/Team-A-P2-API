@@ -130,18 +130,6 @@ public class UserService {
      */
     @Transactional
     public boolean update(User updatedUser) {
-        if (updatedUser == null || updatedUser.getUsername() == null || updatedUser.getPassword() == null ||
-                updatedUser.getUsername().trim().equals("") || updatedUser.getPassword().trim().equals("")) {
-            throw new BadRequestException("Oh no! You did not provide a valid username or password.");
-        }
-
-        // will be true if username is available, false if already taken
-        boolean isUsernameAvailable = checkUsername(updatedUser.getUsername());
-
-        if (!isUsernameAvailable) {
-            throw new ResourcePersistenceException("That username is already taken.");
-        }
-
         try {
             userRepo.update(updatedUser);
         } catch (Exception e) {

@@ -52,7 +52,7 @@ public class UserController {
         return userService.delete(userToBeDeleted.getId());
     }
 
-    @PatchMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
     public boolean updateUser(@RequestBody User updatedUser) {
         return userService.update(updatedUser);
     }
