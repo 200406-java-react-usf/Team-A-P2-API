@@ -93,23 +93,23 @@ public class UserServiceTest {
 
         when(mockRepo.findUserByCreds("test1un", "test1pw")).thenReturn(mockUsers.get(1));
 
-        Principal user = sut.authenticate(new Creds("test1un", "test1pw"));
+        UserDTO user = sut.authenticate(new Creds("test1un", "test1pw"));
 
-        assert(user.equals(new Principal(mockUsers.get(1))));
+        assert(user.equals(new UserDTO(mockUsers.get(1))));
     }
 
     @Test(expected = BadRequestException.class)
     public void findUserByCredsException1() {
         when(mockRepo.findUserByCreds("test1un", "test1pw")).thenReturn(mockUsers.get(1));
 
-        Principal user = sut.authenticate(new Creds("", "test1pw"));
+        UserDTO user = sut.authenticate(new Creds("", "test1pw"));
     }
 
     @Test(expected = BadRequestException.class)
     public void findUserByCredsException2() {
         when(mockRepo.findUserByCreds("test1un", "test1pw")).thenReturn(mockUsers.get(1));
 
-        Principal user = sut.authenticate(new Creds("test1un", ""));
+        UserDTO user = sut.authenticate(new Creds("test1un", ""));
 
     }
 

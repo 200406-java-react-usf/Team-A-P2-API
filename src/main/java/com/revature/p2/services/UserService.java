@@ -75,7 +75,7 @@ public class UserService {
      * @return the newly logged in user
      */
     @Transactional(readOnly=true)
-    public Principal authenticate(Creds creds) {
+    public UserDTO authenticate(Creds creds) {
 
         if (creds == null || creds.getUsername() == null || creds.getPassword() == null
             || creds.getUsername().trim().equals("") || creds.getPassword().trim().equals(""))
@@ -91,7 +91,7 @@ public class UserService {
             throw new AuthenticationException("Authentication failed!", e);
         }
 
-        return new Principal(retrievedUser);
+        return new UserDTO(retrievedUser);
 
     }
 
@@ -130,16 +130,9 @@ public class UserService {
      */
     @Transactional
     public boolean update(User updatedUser) {
-        if (updatedUser == null || updatedUser.getUsername() == null || updatedUser.getPassword() == null ||
-                updatedUser.getUsername().trim().equals("") || updatedUser.getPassword().trim().equals("")) {
-            throw new BadRequestException("Oh no! You did not provide a valid username or password.");
-        }
 
-        // will be true if username is available, false if already taken
-        boolean isUsernameAvailable = checkUsername(updatedUser.getUsername());
-
-        if (!isUsernameAvailable) {
-            throw new ResourcePersistenceException("That username is already taken.");
+        if (updatedUser == null) {
+            throw new BadRequestException();
         }
 
         try {
