@@ -12,12 +12,6 @@ import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import java.util.List;
 
-@NamedNativeQueries({
-        @NamedNativeQuery(
-                name = "updateCargo",
-                query = "update cargo set cost_of_goods = :cog, good_quantity= :gq where user_id = :uId and good_id = :gId"
-        )
-})
 
 @Repository
 public class CargoRepo implements CrudRepo<Cargo> {
@@ -61,12 +55,12 @@ public class CargoRepo implements CrudRepo<Cargo> {
                 .getResultList();
     }
 
-    public List<Cargo> findByUserIdAndGoodId(int uId, int gId) {
+    public Cargo findByUserIdAndGoodId(int uId, int gId) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Cargo where user_id = :uId and good_id = :gId", Cargo.class)
                 .setParameter("uId", uId)
                 .setParameter("gId", gId)
-                .getResultList();
+                .uniqueResult();
     }
 
 
@@ -79,22 +73,14 @@ public class CargoRepo implements CrudRepo<Cargo> {
         return newObj;
     }
     @Override
-    public boolean update(Cargo updatedObj) {
-
-        //WIP
-        return false;
-    }
-
-    public boolean updateCargo(int uId, int gId, int cost, int quantity) {
+    public boolean update(Cargo updatedCargo) {
         Session session = sessionFactory.getCurrentSession();
-        session.createNamedQuery("updateCargo", Cargo.class)
-                .setParameter("uId", uId)
-                .setParameter("gId", gId)
-                .setParameter("cog", cost)
-                .setParameter("gq", quantity)
-                .executeUpdate();
+        Cargo updateTarget = findByUserIdAndGoodId(updatedCargo.getUserId(), updatedCargo.getId());
+        updateTarget.setQuantity(updatedCargo.getQuantity());
+        updateTarget.setCostOfGoods(updatedCargo.getCostOfGoods());
         return true;
     }
+
 
     @Override
     public boolean deleteById(int id) {

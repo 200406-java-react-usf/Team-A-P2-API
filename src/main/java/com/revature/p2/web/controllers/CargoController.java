@@ -57,11 +57,11 @@ public class CargoController {
     }
 
     @GetMapping(value="/user/{uId}/good/{gId}")
-    public List<CargoDTO> getCargoByUserIdAndGoodId(@PathVariable int uId, @PathVariable int gId) {
+    public CargoDTO getCargoByUserIdAndGoodId(@PathVariable int uId, @PathVariable int gId) {
         return cargoService.getCargoByUserIdAndGoodId(uId, gId);
     }
 
-    @PutMapping(value="/update/{uId}/{gId}/{cost}/{quantity}")
+    @PutMapping(value="/{uId}/{gId}/{cost}/{quantity}")
     public boolean updateCargo(@PathVariable int uId, @PathVariable int gId, @PathVariable int cost, @PathVariable int quantity) {
         return cargoService.updateCargo(uId, gId, cost, quantity);
     }

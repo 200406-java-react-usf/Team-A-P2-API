@@ -4,7 +4,9 @@ import com.revature.p2.exceptions.BadRequestException;
 import com.revature.p2.exceptions.ResourceNotFoundException;
 import com.revature.p2.models.Cargo;
 import com.revature.p2.models.PlanetGood;
+import com.revature.p2.models.User;
 import com.revature.p2.repos.CargoRepo;
+import com.revature.p2.repos.UserRepo;
 import com.revature.p2.web.dtos.CargoDTO;
 import com.revature.p2.web.dtos.PlanetGoodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,13 @@ import java.util.stream.Collectors;
 public class CargoService {
 
     private CargoRepo cargoRepo;
+    private UserRepo userRepo;
 
     @Autowired
-    public CargoService(CargoRepo repo) {
+    public CargoService(CargoRepo repo, UserRepo userRepo) {
         super();
         this.cargoRepo = repo;
+        this.userRepo = userRepo;
     }
 
     /**
@@ -55,11 +59,8 @@ public class CargoService {
     }
 
     @Transactional
-    public List<CargoDTO> getCargoByUserIdAndGoodId(int uId, int gId) {
-        return cargoRepo.findByUserIdAndGoodId(uId, gId)
-                .stream()
-                .map(CargoDTO::new)
-                .collect(Collectors.toList());
+    public CargoDTO getCargoByUserIdAndGoodId(int uId, int gId) {
+        return new CargoDTO( cargoRepo.findByUserIdAndGoodId(uId, gId) );
     }
 
     /**
@@ -98,13 +99,25 @@ public class CargoService {
     }
 
     /**
-     * Used to update the info for a cargo
-     * @param updatedCargo the updated info for the cargo
-     * @return the updated cargo
+     * will update cargo
+     * @param uId user id
+     * @param gId good id
+     * @param cost cost
+     * @param quantity quantity
+     * @return true if it works
      */
     @Transactional
     public boolean updateCargo(int uId, int gId, int cost, int quantity) {
-        cargoRepo.updateCargo(uId, gId, cost, quantity);
+
+        User u = userRepo.findById(uId);
+        Cargo c = new Cargo(gId, uId, cost, quantity);
+        CargoDTO b = getCargoByUserIdAndGoodId(uId, gId);
+        c.setCostOfGoods(cost+b.getCostOfGoods());
+        c.setQuantity(quantity+b.getQuantity());
+        cargoRepo.update(c);
+        u.setCurrency(u.getCurrency()-cost);
+        u.setCargoSpace(u.getCargoSpace()-quantity);
+        userRepo.update(u);
         return true;
     }
 

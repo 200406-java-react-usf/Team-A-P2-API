@@ -5,11 +5,14 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
+
+
 @Entity(name = "Cargo")
 @Table(name = "cargo", uniqueConstraints = {
         @UniqueConstraint(columnNames = "good_id"),
         @UniqueConstraint(columnNames = "user_id")
 })
+
 public class Cargo implements Serializable {
 
     @Id
