@@ -83,12 +83,12 @@ public class CargoServiceTest {
         assertEquals(cargos, new CargoDTO(mockCargos.get(1)));
     }
 
-    @Test
-    public void updateTest() {
-        when(mockRepo.update(mockCargos.get(1))).thenReturn(true);
-
-        boolean updated = sut.updateCargo(mockCargos.get(1));
-
-        assertEquals(updated, true);
-    }
+//    @Test
+//    public void updateTest() {
+//        when(mockRepo.update(mockCargos.get(1))).thenReturn(true);
+//
+//        boolean updated = sut.updateCargo(mockCargos.get(1));
+//
+//        assertEquals(updated, true);
+//    }
 }

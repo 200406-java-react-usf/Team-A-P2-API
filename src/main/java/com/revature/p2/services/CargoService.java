@@ -3,8 +3,10 @@ package com.revature.p2.services;
 import com.revature.p2.exceptions.BadRequestException;
 import com.revature.p2.exceptions.ResourceNotFoundException;
 import com.revature.p2.models.Cargo;
+import com.revature.p2.models.PlanetGood;
 import com.revature.p2.repos.CargoRepo;
 import com.revature.p2.web.dtos.CargoDTO;
+import com.revature.p2.web.dtos.PlanetGoodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,30 @@ public class CargoService {
     @Transactional(readOnly = true)
     public List<CargoDTO> getAllCargos() {
         return cargoRepo.findAll()
+                .stream()
+                .map(CargoDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<CargoDTO> getCargoListByUserId(int id) {
+        return cargoRepo.findByUserId(id)
+                .stream()
+                .map(CargoDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<PlanetGoodDTO> getCargoListByPlanetId(int id) {
+        return cargoRepo.findByPlanetId(id)
+                .stream()
+                .map(PlanetGoodDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<CargoDTO> getCargoByUserIdAndGoodId(int uId, int gId) {
+        return cargoRepo.findByUserIdAndGoodId(uId, gId)
                 .stream()
                 .map(CargoDTO::new)
                 .collect(Collectors.toList());
@@ -77,8 +103,8 @@ public class CargoService {
      * @return the updated cargo
      */
     @Transactional
-    public boolean updateCargo(Cargo updatedCargo) {
-        cargoRepo.update(updatedCargo);
+    public boolean updateCargo(int uId, int gId, int cost, int quantity) {
+        cargoRepo.updateCargo(uId, gId, cost, quantity);
         return true;
     }
 
