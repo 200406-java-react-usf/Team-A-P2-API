@@ -1,9 +1,11 @@
 package com.revature.p2.web.controllers;
 
+import com.revature.p2.models.Cargo;
 import com.revature.p2.models.Good;
 import com.revature.p2.models.Good;
 import com.revature.p2.services.GoodService;
 
+import com.revature.p2.web.dtos.CargoDTO;
 import com.revature.p2.web.dtos.GoodDTO;
 import com.revature.p2.web.security.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,6 @@ public class GoodController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
     public List<GoodDTO> getAllGoods() {
 
         return goodService.getAllGoods();
@@ -44,5 +45,12 @@ public class GoodController {
     public GoodDTO registerNewGood(@RequestBody Good newGood) {
 
         return goodService.register(newGood);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public GoodDTO updateGood(@RequestBody Good updatedGood) {
+
+        return goodService.updateGood(updatedGood);
     }
 }

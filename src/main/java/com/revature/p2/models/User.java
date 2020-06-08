@@ -161,8 +161,6 @@ public class User implements Serializable {
                 Objects.equals(password, user.password) &&
                 role == user.role &&
                 Objects.equals(goods, user.goods);
-//        &&
-//                Objects.equals(planet, user.planet);
     }
 
     @Override

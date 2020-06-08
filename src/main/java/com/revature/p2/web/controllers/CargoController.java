@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cargos")
+@RequestMapping("/cargo")
 public class CargoController {
 
     private CargoService cargoService;
@@ -33,9 +33,9 @@ public class CargoController {
     }
 
     @GetMapping(value="{id}")
-    public CargoDTO getGoodById(@PathVariable int id, HttpServletRequest req) {
+    public List<CargoDTO> getCargoByUserId(@PathVariable int id, HttpServletRequest req) {
 
-        return cargoService.getCargoById(id);
+        return cargoService.getAllUserCargo(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,5 +43,12 @@ public class CargoController {
     public CargoDTO registerNewCargo(@RequestBody Cargo newCargo) {
 
         return cargoService.register(newCargo);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping(value = "", produces=MediaType.APPLICATION_JSON_VALUE)
+    public boolean updateCargo(@RequestBody Cargo updatedCargo) {
+
+        return cargoService.updateCargo(updatedCargo);
     }
 }

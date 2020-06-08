@@ -80,8 +80,8 @@ public class CargoService {
     @Transactional
     public CargoDTO register(Cargo newCargo) {
 
-        if (newCargo == null || newCargo.getUserId() == 0 || newCargo.getId() == 0 ||
-                newCargo.getQuantity() == 0 || newCargo.getCostOfGoods() == 0 ){
+        if (newCargo == null || newCargo.getUserId() <= 0 || newCargo.getId() <= 0 ||
+                newCargo.getQuantity() <= 0 || newCargo.getCostOfGoods() <= 0 ){
             throw new BadRequestException("Oh no! You provided bad data.");
         }
 
@@ -96,14 +96,14 @@ public class CargoService {
      * @return the updated cargo
      */
     @Transactional
-    public Cargo updateCargo(Cargo updatedCargo) {
+    public boolean updateCargo(Cargo updatedCargo) {
 
-        if (!checkIfInCargo(updatedCargo)){
+        if (checkIfInCargo(updatedCargo)) {
             cargoRepo.save(updatedCargo);
-        }else if (checkIfInCargo(updatedCargo)){
-            cargoRepo.update(updatedCargo);
+            return true;
         }
-        return updatedCargo;
+
+        return cargoRepo.update(updatedCargo);
     }
 
     private boolean checkIfInCargo(Cargo checkedCargo) {

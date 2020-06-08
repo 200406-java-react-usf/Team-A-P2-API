@@ -86,10 +86,10 @@ public class GoodService {
     }
 
     @Transactional
-    public Good updateGood(Good updatedGood) {
+    public GoodDTO updateGood(Good updatedGood) {
 
         goodRepo.update(updatedGood);
-        return updatedGood;
+        return new GoodDTO(updatedGood);
     }
 
 }

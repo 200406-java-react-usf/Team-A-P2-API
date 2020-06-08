@@ -39,7 +39,9 @@ public class CargoRepo implements CrudRepo<Cargo> {
 
     public List<Cargo> findByUserId(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Cargo where user_id = :id", Cargo.class).getResultList();
+        return session.createQuery("from Cargo where user_id = :id", Cargo.class)
+                .setParameter("id", id)
+                .getResultList();
     }
 
     /**findByUserAndGoodId method to look
@@ -48,9 +50,9 @@ public class CargoRepo implements CrudRepo<Cargo> {
     public Cargo findByUserAndGoodId(Cargo checkedCargo) {
 
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Cargo c where c.user_id = :userId and c.good_id = :goodId", Cargo.class)
-                .setParameter("userId", checkedCargo.getId())
-                .setParameter("goodId", checkedCargo.getUserId())
+        return session.createQuery("from Cargo c where c.userId = :userId and c.id = :id", Cargo.class)
+                .setParameter("id", checkedCargo.getId())
+                .setParameter("userId", checkedCargo.getUserId())
                 .uniqueResult();
     }
 
@@ -65,7 +67,7 @@ public class CargoRepo implements CrudRepo<Cargo> {
     public boolean update(Cargo updatedCargo) {
 
         Session session = sessionFactory.getCurrentSession();
-        Cargo updateTarget = session.get(Cargo.class, (updatedCargo.getUserId() & updatedCargo.getId()));
+        Cargo updateTarget = findByUserAndGoodId(updatedCargo);
         updateTarget.setQuantity(updatedCargo.getQuantity());
         updateTarget.setCostOfGoods(updatedCargo.getCostOfGoods());
         return true;
