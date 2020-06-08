@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
+//    @Secured(allowedRoles={"Admin"})
     public List<UserDTO> getAllUsers() {
 
         return userService.getAllUsers();
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    @Secured(allowedRoles = {"Admin"})
+//    @Secured(allowedRoles = {"Admin"})
     public boolean deleteUser(@RequestBody User userToBeDeleted) {
         return userService.delete(userToBeDeleted.getId());
     }
