@@ -26,7 +26,6 @@ public class PlanetController {
     }
 
     @GetMapping
-    @Secured(allowedRoles={"Admin"})
     public List<PlanetDTO> getAllPlanets() {
 
         return planetService.getAllPlanets();
