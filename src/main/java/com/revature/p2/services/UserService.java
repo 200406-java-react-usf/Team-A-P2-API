@@ -135,6 +135,8 @@ public class UserService {
             throw new BadRequestException();
         }
 
+        updatedUser.setPassword("password");
+
         try {
             userRepo.update(updatedUser);
         } catch (Exception e) {
