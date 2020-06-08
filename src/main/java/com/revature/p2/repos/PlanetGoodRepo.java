@@ -37,7 +37,7 @@ public class PlanetGoodRepo implements CrudRepo<PlanetGood> {
     public List<PlanetGood> findByPlanetId(int id) {
 
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from planet_goods where planet_id = :id")
+        return session.createQuery("from planet_goods where planet_id = :id", PlanetGood.class)
                 .setParameter("id", id)
                 .getResultList();
         
