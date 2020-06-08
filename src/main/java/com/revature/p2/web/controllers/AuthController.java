@@ -3,6 +3,7 @@ package com.revature.p2.web.controllers;
 import com.revature.p2.services.UserService;
 import com.revature.p2.web.dtos.Creds;
 import com.revature.p2.web.dtos.Principal;
+import com.revature.p2.web.dtos.UserDTO;
 import com.revature.p2.web.security.JwtConfig;
 import com.revature.p2.web.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,9 @@ public class AuthController {
     }
 
     @PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public Principal authenticate(@RequestBody Creds creds, HttpServletResponse resp) {
-        Principal payload = userService.authenticate(creds);
-        resp.setHeader(JwtConfig.HEADER, TokenGenerator.createJwt(payload));
+    public UserDTO authenticate(@RequestBody Creds creds, HttpServletResponse resp) {
+        UserDTO payload = userService.authenticate(creds);
+//        resp.setHeader(JwtConfig.HEADER, TokenGenerator.createJwt(payload));
         return payload;
     }
 

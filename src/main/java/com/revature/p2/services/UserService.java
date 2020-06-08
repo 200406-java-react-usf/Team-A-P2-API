@@ -75,7 +75,7 @@ public class UserService {
      * @return the newly logged in user
      */
     @Transactional(readOnly=true)
-    public Principal authenticate(Creds creds) {
+    public UserDTO authenticate(Creds creds) {
 
         if (creds == null || creds.getUsername() == null || creds.getPassword() == null
             || creds.getUsername().trim().equals("") || creds.getPassword().trim().equals(""))
@@ -91,7 +91,7 @@ public class UserService {
             throw new AuthenticationException("Authentication failed!", e);
         }
 
-        return new Principal(retrievedUser);
+        return new UserDTO(retrievedUser);
 
     }
 
@@ -130,6 +130,11 @@ public class UserService {
      */
     @Transactional
     public boolean update(User updatedUser) {
+
+        if (updatedUser == null) {
+            throw new BadRequestException();
+        }
+
         try {
             userRepo.update(updatedUser);
         } catch (Exception e) {
